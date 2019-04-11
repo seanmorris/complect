@@ -2,8 +2,9 @@ import { View }  from 'curvature/base/View';
 import { Entry } from './Entry';
 
 import { Properties } from '../properties/Properties';
-import { Styler } from '../styler/Styler';
-import { Stator } from '../stator/Stator';
+import { Styler }     from '../styler/Styler';
+import { Stator }     from '../stator/Stator';
+import { Builder }    from '../builder/Builder';
 
 export class Column extends View
 {
@@ -16,30 +17,19 @@ export class Column extends View
 		let mainEntry      = new Entry;
 		this.args.entries  = [mainEntry];
 
-		for(let i = 0; i < 3; i++)
+		let content = {
+			'Properties': new Properties
+			, 'States':   new Stator
+			, 'Builder':  new Builder
+			, 'Styles':   new Styler
+		};
+
+		for(let i in content)
 		{
 			let entry = new Entry;
 
-			entry.args.title   = `Title for ${i}`;
-			entry.args.content = `Content for ${i}`;
-
-			if(i === 2)
-			{
-				entry.args.title   = 'Styles';
-				entry.args.content = new Styler;
-			}
-
-			if(i === 1)
-			{
-				entry.args.title   = 'States';
-				entry.args.content = new Stator;
-			}
-
-			if(i === 0)
-			{
-				entry.args.title   = 'Properties';
-				entry.args.content = new Properties;
-			}
+			entry.args.title   = i;
+			entry.args.content = content[i];
 
 			this.args.entries.push(entry);
 		}

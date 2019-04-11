@@ -9,10 +9,19 @@ export class Entry extends View
 		this.template      = require('./entry.tmp');
 		this.args.content  = '';
 		this.args.expanded = 'expanded';
+		this.args.icon     = 'x';
 	}
 
 	click(event)
 	{
-		this.args.expanded = this.args.expanded === 'expanded' ? 'collapsed' : 'expanded';
+		if(this.args.expanded === 'expanded')
+		{
+			this.args.expanded = 'collapsed';
+			this.args.icon     = '+';
+			return;
+		}
+
+		this.args.expanded = 'expanded';
+		this.args.icon     = 'x';
 	}
 }

@@ -8,3 +8,19 @@
 	width:         calc(100% - 0.5em);
 	margin-bottom: 0.5em;
 }
+
+.styler form {
+	display:        flex;
+	flex-direction: column;
+}
+
+.styler label,
+.styler input {
+	display: block;
+	margin-bottom: 0.5em;
+	box-sizing: border-box;
+}
+
+.styler input {
+	width: 100%;
+}

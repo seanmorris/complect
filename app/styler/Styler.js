@@ -1,4 +1,5 @@
 import { View } from 'curvature/base/View';
+import { Form } from 'curvature/form/Form';
 
 export class Styler extends View
 {
@@ -10,6 +11,7 @@ export class Styler extends View
 		this.args.styles = {};
 		this.args.states = [];
 		this.args.focus  = null;
+		this.args.status = null;
 	}
 
 	postRender()
@@ -22,55 +24,71 @@ export class Styler extends View
 				return;
 			}
 
-			let styles = getComputedStyle(v.tags.entity.element);
+			let styles = getComputedStyle(v.rootTag());
 
-			this.args.styles['width']           = 'auto' || styles.getPropertyValue('background');
-			this.args.styles['height']          = 'auto' || styles.getPropertyValue('background');
+			let filteredStyles = {
+				display:      null
+				, width:      'auto'
+				, height:     'auto'
+				, padding:    null
+				, margin:     null
+				, border:     null
+				, color:      null
+				, background: null
+				, flex:       null
 
-			this.args.styles['padding']         = styles.getPropertyValue('padding');
-			this.args.styles['margin']          = styles.getPropertyValue('margin');
-			this.args.styles['border']          = styles.getPropertyValue('border');
-			this.args.styles['background']      = styles.getPropertyValue('background');
-			this.args.styles['display']         = styles.getPropertyValue('display');
-			this.args.styles['flex']            = styles.getPropertyValue('flex');
-			this.args.styles['flex-direction']  = styles.getPropertyValue('flex-direction');
-			this.args.styles['align-items']     = styles.getPropertyValue('align-items');
-			this.args.styles['justify-content'] = styles.getPropertyValue('justify-content');
-			this.args.styles['font-family']     = styles.getPropertyValue('font-family');
-			this.args.styles['font-size']       = styles.getPropertyValue('font-size');
-			this.args.styles['font-weight']     = styles.getPropertyValue('font-weight');
+				, 'flex-direction':  null
+				, 'align-items':     null
+				, 'justify-content': null
 
-			let showStyles = [
-				'color'
-				, 'background'
-				, 'width'
-				, 'height'
-				, 'box-sizing'
-				, 'display'
-				, 'flex'
-			];
+				, 'box-sizing':   null
 
-			for (let i = 0; i < styles.length; i++)
+				, 'font-family': null
+				, 'font-weight': null
+				, 'font-size':   null
+			};
+
+			let formSource = {"_method": "get"};
+
+			for(let i in filteredStyles)
 			{
-				let name  = styles.item(i);
-				let value = styles.getPropertyValue(name);
+				this.args.styles[i] = styles.getPropertyValue(i);
 
-				if(showStyles.indexOf(name) === -1)
-				{
-					continue;
-				}
+				let rule = i;
 
-				this.args.styles[name] = value;
+				formSource[rule] =  {
+					"name":  rule,
+					"title": rule,
+					"type": "text",
+					"value": styles.getPropertyValue(i),
+					"attrs": {
+						"type": "text",
+						"name": rule,
+						"id":   rule
+					}
+				};
 			}
 
-			let stateBind = v.args.states.bindTo((vv, kk, tt)=>{
+			this.args.form = new Form(formSource);
+
+			let styleDebind = this.args.form.value.bindTo((v,k) => {
+				// console.log(k,v);
+				this.args.styles[k] = v;
+			});
+
+			let stateDebind = v.args.states.bindTo((vv, kk, tt)=>{
 				if(!v)
 				{
 					return;
 				}
 
-				this.args.states  = v.activeStates();
-				this.args._states = this.args.states.map(x=>`+${x}`).join(' ');
+				this.args.states = v.activeStates();
+				this.args.status = this.args.states.map(x=>`+${x}`).join(' ');
+
+				if(!this.args.status)
+				{
+					this.args.status = 'all states';
+				}
 
 			}, {wait: 0});
 
@@ -81,8 +99,9 @@ export class Styler extends View
 
 			prevDebind = () => {
 				stateDebind();
+				styleDebind();
 			};
-		});
+		}, {wait: 0});
 
 		this.args.styles.bindTo((v,k,t) => {
 			if(!this.args.focus)
@@ -90,17 +109,15 @@ export class Styler extends View
 				return;
 			}
 
-			let styles    = getComputedStyle(this.args.focus.tags.entity.element);
+			let styles    = getComputedStyle(this.args.focus.rootTag());
 			let preValue  = styles.getPropertyValue(k);
 
 			let entity    = this.args.focus;
-			let entityTag = entity.tags.entity.element;
+			let entityTag = entity.rootTag();
 
-			if(v !== preValue)
+			if(v !== preValue || !v)
 			{
 				entity.addStyle(k, v, this.args.states);
-
-				// entityTag.style[k] = v;
 			}
 
 			if(!v)

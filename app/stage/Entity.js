@@ -1,3 +1,4 @@
+import { Bag  } from 'curvature/base/Bag';
 import { View } from 'curvature/base/View';
 
 export class Entity extends View
@@ -5,7 +6,21 @@ export class Entity extends View
 	constructor(args)
 	{
 		super(args);
-		this.args.name   = this.args.name   || '';
+		this.type           = 'base entity';
+		this.preserve       = true;
+
+		this.template       = require('./entity.tmp');
+		this.args.name      = this.args.name   || '';
+		this.args.styles    = this.args.styles || {};
+		this.args._children = [];
+		this.args.children  = new Bag((item, meta, change)=>{
+			if(!change)
+			{
+				return;
+			}
+
+			this.args._children = this.args.children.items();
+		});
 
 		this.args.states = this.args.states || {
 			default:    false
@@ -14,17 +29,13 @@ export class Entity extends View
 			, hover:    false
 		};
 
-		this.args.styles = this.args.styles || {};
-
-		this.template    = require('./entity.tmp');
-
 		this.args.bindTo('name', (v) => {
-			if(!this.tags.entity)
+			let tag;
+
+			if(!(tag = this.rootTag()))
 			{
 				return;
 			}
-
-			let tag = this.tags.entity.element;
 
 			tag.setAttribute('class', v);
 
@@ -39,6 +50,12 @@ export class Entity extends View
 
 		this.args._styles = '';
 		this.args._states = '';
+
+		this.args.metaStates = {};
+
+		this.args.metaStates.bindTo((v,k,t)=>{
+			this.args._metaStates = Object.keys(t).filter(kk=>t[kk]).join(' ');
+		}, {wait: 0});
 	}
 
 	addStyle(rule, value, states = [])
@@ -47,9 +64,7 @@ export class Entity extends View
 
 		states.sort();
 
-		let stateSelector = states.map(s=>`[data-state~="${s}"]`).join('');
-
-		let selector      = `${stateSelector}`;
+		let selector = states.map(s=>`[data-state~="${s}"]`).join('');
 
 		if(!this.args.styles[selector])
 		{
@@ -83,7 +98,7 @@ export class Entity extends View
 
 	compileTemplate()
 	{
-		return this.tags.entity.element.outerHTML;
+		return this.rootTag().outerHTML;
 	}
 
 	activeStates()
@@ -91,5 +106,66 @@ export class Entity extends View
 		return Object.keys(this.args.states).filter((kk)=>{
 			return this.args.states[kk];
 		});
+	}
+
+	rootTag()
+	{
+		return this.findTag(`#_${this._id}`);
+	}
+
+	findTag(selector)
+	{
+		for(let i in this.nodes)
+		{
+			let result;
+
+			if(!this.nodes[i].querySelector)
+			{
+				continue;
+			}
+
+			if(this.nodes[i].matches(selector))
+			{
+				return this.nodes[i];
+			}
+
+			if(result = this.nodes[i].querySelector(selector))
+			{
+				return result;
+			}
+		}
+	}
+
+	hover(event)
+	{
+		this.args.metaStates['hover'] = true;
+	}
+
+	unhover(event)
+	{
+		this.args.metaStates['hover'] = false;
+	}
+
+	click(event, _id)
+	{
+		if(_id !== this.args._id)
+		{
+			return;
+		}
+
+		event.stopPropagation();
+
+		this.focus();
+	}
+
+	focus()
+	{
+		this.args.metaStates['click'] = true;
+		this.stage.focus(this);
+	}
+
+	blur()
+	{
+		this.args.metaStates['click'] = false;
 	}
 }

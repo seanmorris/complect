@@ -9,6 +9,9 @@ export class Stage extends View
 
 		this.args.rootEntity = this.args.rootEntity || new Entity;
 		this.template        = require('./stage.tmp');
+		this.focused         = null;
+
+		this.args.rootEntity.stage = this;
 	}
 
 	getTemplate()
@@ -19,5 +22,24 @@ export class Stage extends View
 	getStyle()
 	{
 		return this.args.rootEntity.compileStyles();
+	}
+
+	focus(entity)
+	{
+		if(this.focused)
+		{
+			this.focused.blur();
+
+			if(this.focused === entity)
+			{
+				entity.blur();
+				this.focused = null;
+				return;
+			}
+		}
+
+		this.focused = entity;
+
+		this.args.triptych.focus(entity);
 	}
 }

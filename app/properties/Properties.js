@@ -14,7 +14,14 @@ export class Properties extends View
 			{
 				return;
 			}
-		});
+
+			if(!v.args.name)
+			{
+				v.args.name = '_' + v.args._id;
+			}
+
+			this.args.className = v.args.name;
+		}, {wait: 0});
 
 		this.args.bindTo('className', (v,k,t) => {
 			if(!this.args.focus)

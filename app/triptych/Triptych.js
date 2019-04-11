@@ -15,9 +15,11 @@ export class Triptych extends View
 		this.template    = require('./triptych.tmp');
 
 		let entity       = new Entity;
-		let stage        = new Stage({rootEntity: entity});
+		let stage        = new Stage({rootEntity: entity, triptych: this});
 		let left         = new Column;
 		let right        = new Column;
+
+		this.stage       = stage;
 
 		left.args.title  = 'Project';
 		right.args.title = 'Object';
@@ -30,7 +32,14 @@ export class Triptych extends View
 
 	postRender()
 	{
-		let stage  = this.args.center;
+		let entity = this.args.entity;
+		let right  = this.args.right;
+
+		this.focus(entity);
+	}
+
+	focus(entity)
+	{
 		let thing  = this.args.entity;
 		let right  = this.args.right;
 
@@ -43,7 +52,7 @@ export class Triptych extends View
 
 			let entry = right.args.entries[i].args.content;
 
-			entry.args.focus = thing;
-		}		
+			entry.args.focus = entity;
+		}
 	}
 }

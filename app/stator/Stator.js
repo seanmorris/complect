@@ -23,21 +23,19 @@ export class Stator extends View
 				return;
 			}
 
-			console.log(v.args.states);
-
 			let formSource = {"_method": "get"};
 
-			for(let i in this.args.states)
+			for(let state in v.args.states)
 			{
-				let state = this.args.states[i];
-
 				formSource[state] =  {
 					"name":  state,
 					"title": state,
 					"type": "checkbox",
+					"value": v.args.states[state],
 					"attrs": {
 						"type": "checkbox",
-						"name": state
+						"name": state,
+						"id":   state
 					}
 				};
 			}
