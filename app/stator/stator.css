@@ -1,0 +1,16 @@
+.stator > form {
+	display:        flex;
+	flex-direction: column;
+}
+
+.stator > form > label {
+	display:         flex;
+	flex-direction:  row-reverse;
+	justify-content: flex-end;
+	align-items:     center;
+}
+
+.stator > form > label > input {
+	margin: 0.25em;
+	zoom: 1.5;
+}

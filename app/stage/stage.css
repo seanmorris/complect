@@ -1,0 +1,11 @@
+.stage {
+	display:        flex;
+	flex-direction: column;
+	flex:           1;
+
+	background:     white;
+	border:         1px solid black;
+
+	margin-left:    1em;
+	margin-right:   1em;
+}

@@ -1,0 +1,95 @@
+.triptych {
+	display:         flex;
+	flex:            1;
+	justify-content: space-between;
+
+	position: absolute;
+	top:      0px;
+	left:     0px;
+	right:    0px;
+	bottom:   0px;
+}
+
+/*.triptych > .content,*/
+.triptych > .center {
+	display:        flex;
+	flex-direction: column;
+	flex:           1;
+}
+
+.triptych > .content {
+	overflow-y: auto;
+}
+
+.triptych > .content::-webkit-scrollbar { 
+	display: none; 
+} 
+
+.triptych .column .entry-titlebar,
+.triptych .column .entry-content:not(:empty) {
+	padding: 0.5em;
+}
+
+.triptych .column .entry-titlebar {
+	position:    sticky;
+	top:         0px;
+	cursor:      pointer;
+	user-select: none;
+}
+
+.triptych .column {
+	transition: 0.2s width ease-out;
+}
+
+.triptych .entry-toggle {
+	text-align:  center;
+}
+
+.triptych .column.collapsed,
+.triptych .entry-toggle {
+	width: 2em;
+}
+
+.triptych .column.expanded {
+	width: 20em;
+}
+
+.triptych .column .entry {
+	border:        1px solid black;
+	margin-bottom: 1px;
+}
+
+.triptych .column .entry > .entry-titlebar {
+	display:         flex;
+	flex-direction:  row;
+	justify-content: flex-end;
+
+	background-color: #000;
+	color:            #FFF;
+}
+
+.triptych .column.expanded .entry.collapsed > .entry-content {
+	display: none;
+}
+
+.triptych .column.expanded .entry.expanded > .entry-content:not(:empty) {
+	/*border-bottom: 1px solid black;*/
+}
+
+.triptych .column.expanded .entry:not(:last-child) {
+	border-bottom: none;
+}
+
+.triptych .column.expanded .entry-title {
+	flex: 1;
+}
+
+.triptych .column.expanded .entry-content {
+	background: #AAA;
+}
+
+.triptych .column.collapsed .entry-title,
+.triptych .column.collapsed .entry-content,
+.triptych .column.collapsed .entry:not(:first-child) {
+	display: none;
+}

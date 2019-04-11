@@ -1,0 +1,9 @@
+<span cv-if = "!_states">Setting styles for <b>all</b> states:<br /> <b>&nbsp;</b></span>
+<span cv-if = "_states">Setting styles for state:<br /> <b>[[_states]]</b></span>
+
+<div class = "styler" cv-each = "styles:style:s">
+	<div class = "styler-entry">
+		[[s]]:<br />
+		<input cv-bind = "style" cv-ref = "style:curvature/base/Tag:s"> <br />
+	</div>
+</div>

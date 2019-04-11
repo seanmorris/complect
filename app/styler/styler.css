@@ -1,0 +1,10 @@
+.styler {
+	display:        flex;
+	flex-direction: column;
+}
+
+.styler-entry,
+.styler-entry > input {
+	width:         calc(100% - 0.5em);
+	margin-bottom: 0.5em;
+}
