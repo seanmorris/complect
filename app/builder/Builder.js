@@ -7,14 +7,21 @@ export class Builder extends View
 	{
 		super(args);
 
-		this.template   = require('./builder.tmp');
-		this.args.focus = null;
+		this.parent   = false;
+		this.template = require('./builder.tmp');
+
+		this.args.focus  = null;
 
 		this.args.bindTo('focus', (v,k,t) => {
 			if(!v)
 			{
 				return;
 			}
+
+			this.reloadList(v);
+
+			this.parent       = v.parent;
+			this.args._parent = !!v.parent;
 		});
 	}
 
@@ -29,10 +36,30 @@ export class Builder extends View
 		let child  = new Entity;
 
 		entity.args.children.add(child);
-		child.stage = entity.stage;
 
-		this.args.children = entity.args.children.items().map((child)=>{
-			return child.type;
+		this.reloadList(entity);
+	}
+
+	click(event, c)
+	{
+		console.log(c);
+
+		let child = this.children[c];
+
+		if(c === 'parent')
+		{
+			child = this.parent;
+		}
+
+		child.focus();
+	}
+
+	reloadList(entity)
+	{
+		this.children = entity.args.children.items()
+
+		this.args._children = this.children.map((child)=>{
+			return child.args.name ||child.args._id;
 		});
 	}
 }

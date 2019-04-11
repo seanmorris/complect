@@ -20,6 +20,12 @@ export class Entity extends View
 			}
 
 			this.args._children = this.args.children.items();
+
+			if(change > 0)
+			{
+				item.stage  = this.stage;
+				item.parent = this;
+			}
 		});
 
 		this.args.states = this.args.states || {

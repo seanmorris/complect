@@ -1,5 +1,11 @@
 <button cv-on = "click:add(event)">+</button>
 
-<div cv-each = "children:child:c">
-	<div>[[c]]: [[child]]</div>
+<div class = "builder">
+	<div cv-if = "_parent">
+		<div><a cv-on = 'click:click(event, "parent")'>.. parent</a></div>
+	</div>
+
+	<div cv-each = "_children:child:c">
+		<div><a cv-on = "click:click(event, c)">[[c]] [[child]]</a></div>
+	</div>
 </div>

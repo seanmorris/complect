@@ -46,6 +46,9 @@ export class Styler extends View
 				, 'font-family': null
 				, 'font-weight': null
 				, 'font-size':   null
+				, 'transition':  null
+				, 'transform':   null
+				, 'opacity':     null
 			};
 
 			let formSource = {"_method": "get"};
@@ -123,7 +126,7 @@ export class Styler extends View
 			if(!v)
 			{
 				this.onTimeout(0, ()=>{
-					this.tags.style[k].element.value = styles[k];
+					// this.tags.style[k].element.value = styles[k];
 					this.args.styles[k]              = styles[k];
 				});
 			}

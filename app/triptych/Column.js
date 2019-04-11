@@ -18,10 +18,10 @@ export class Column extends View
 		this.args.entries  = [mainEntry];
 
 		let content = {
-			'Properties': new Properties
-			, 'States':   new Stator
-			, 'Builder':  new Builder
-			, 'Styles':   new Styler
+			'Properties':  new Properties
+			, 'Structure': new Builder
+			, 'States':    new Stator
+			, 'Styles':    new Styler
 		};
 
 		for(let i in content)
