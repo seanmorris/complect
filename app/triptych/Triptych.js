@@ -3,7 +3,7 @@ import { Column } from './Column';
 
 import { SampleView } from '../pak/SampleView';
 
-import { Entity }     from '../stage/Entity';
+import { Entity }     from '../entity/Entity';
 import { Stage }      from '../stage/Stage';
 
 export class Triptych extends View

@@ -68,6 +68,10 @@
 	color:            #FFF;
 }
 
+.triptych .column .entry > .entry-toolbar {
+	background-color: #666;
+}
+.triptych .column .entry.collapsed > .entry-toolbar,
 .triptych .column.expanded .entry.collapsed > .entry-content {
 	display: none;
 }
@@ -92,4 +96,21 @@
 .triptych .column.collapsed .entry-content,
 .triptych .column.collapsed .entry:not(:first-child) {
 	display: none;
+}
+
+
+.triptych .column .entry form {
+	display:        flex;
+	flex-direction: column;
+}
+
+.triptych .column .entry label,
+.triptych .column .entry input {
+	display: block;
+	margin-bottom: 0.5em;
+	box-sizing: border-box;
+}
+
+.triptych .column .entry input {
+	width: 100%;
 }

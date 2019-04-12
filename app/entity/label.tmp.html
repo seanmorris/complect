@@ -1,0 +1,14 @@
+<style data-entity-style type="text/css">[[_styles]]</style>
+
+<div
+	class           = "[[className]]"
+	id              = "_[[_id]]"
+	data-state      = "[[_states]]"
+	data-metastate  = "[[_metaStates]]"
+	cv-bind         = "content"
+	cv-on           = "
+		mouseenter:hover(event);
+		mouseleave:unhover(event);
+		click:click(event, _id);
+	"
+></div>

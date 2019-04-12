@@ -4,13 +4,15 @@
 }
 
 .stator > form > label {
-	display:         flex;
-	flex-direction:  row-reverse;
+	display:         flex !important;
+	flex-direction:  row-reverse !important;
 	justify-content: flex-end;
 	align-items:     center;
 }
 
 .stator > form > label > input {
 	margin: 0.25em;
-	zoom: 1.5;
+	/*zoom: 1.5;*/
+	width: auto !important;
+	display: inline !important;
 }

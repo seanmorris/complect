@@ -1,5 +1,8 @@
 import { View   } from 'curvature/base/View';
-import { Entity } from '../stage/Entity';
+import { Label  } from '../entity/Label';
+import { Image  } from '../entity/Image';
+import { Entity } from '../entity/Entity';
+import { Toolbar } from './Toolbar';
 
 export class Builder extends View
 {
@@ -9,6 +12,7 @@ export class Builder extends View
 
 		this.parent   = false;
 		this.template = require('./builder.tmp');
+		this.toolbar  = new Toolbar({main: this});
 
 		this.args.focus  = null;
 
@@ -25,15 +29,32 @@ export class Builder extends View
 		});
 	}
 
-	add()
+	add(addType = null)
 	{
 		if(!this.args.focus)
 		{
 			return;
 		}
 
+		let child;
+
+		switch(addType)
+		{
+			case 'label':
+				child = new Label;
+				break;
+
+			case 'image':
+				child = new Image;
+				break;
+
+			default:
+			case 'baseEntity':
+				child = new Entity;
+				break;
+		}
+
 		let entity = this.args.focus;
-		let child  = new Entity;
 
 		entity.args.children.add(child);
 

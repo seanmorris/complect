@@ -1,5 +1,5 @@
 import { View   } from 'curvature/base/View';
-import { Entity } from './Entity';
+import { Entity } from '../entity/Entity';
 
 export class Stage extends View
 {

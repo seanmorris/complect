@@ -7,6 +7,9 @@ export class Entry extends View
 		super(args);
 
 		this.template      = require('./entry.tmp');
+		this.args.title    = 'Entry';
+		this.args.toolbar  = '';
+		// this.args.toolbar  = 'toolbar';
 		this.args.content  = '';
 		this.args.expanded = 'expanded';
 		this.args.icon     = 'x';

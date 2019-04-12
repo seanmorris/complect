@@ -31,6 +31,11 @@ export class Column extends View
 			entry.args.title   = i;
 			entry.args.content = content[i];
 
+			if(content[i].toolbar)
+			{
+				entry.args.toolbar = content[i].toolbar;
+			}
+
 			this.args.entries.push(entry);
 		}
 
