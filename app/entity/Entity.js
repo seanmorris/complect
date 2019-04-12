@@ -28,11 +28,11 @@ export class Entity extends View
 			}
 		});
 
-		this.args.states = this.args.states || {
-			default:    false
-			, active:   false
-			, inactive: false
-			, hover:    false
+		this.args.states = {
+			// default:    false
+			// , active:   false
+			// , inactive: false
+			// , hover:    false
 		};
 
 		this.args.bindTo('name', (v) => {

@@ -107,12 +107,18 @@
 .triptych .column .entry label,
 .triptych .column .entry input {
 	display: block;
+	margin-top: 0.5em;
 	margin-bottom: 0.5em;
-	box-sizing: border-box;
+	box-sizing: content-box;
+}
+
+.triptych .column .entry label {
+	display:        flex;
+	flex-direction: column;
 }
 
 .triptych .column .entry input {
-	width: 100%;
+	/*width: 100%;*/
 }
 
 .triptych .column .entry-toolbar button {

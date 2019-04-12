@@ -16,7 +16,7 @@ export class Stator extends View
 		this.args.form = null;
 		this.args.newState = null;
 
-		let prevBind = false;
+		this.prevBind = false;
 
 		this.args.bindTo('focus', (v,k,t) => {
 			if(!v)
@@ -26,16 +26,7 @@ export class Stator extends View
 
 			this.buildForm(v);
 
-			if(prevBind)
-			{
-				prevBind();
-			}
 
-			prevBind = this.args.form.value.bindTo((vv,kk)=>{
-				v.args.states[kk] = vv;
-			});
-
-			console.log();
 		});
 	}
 
@@ -59,13 +50,27 @@ export class Stator extends View
 		}
 
 		this.args.form = new Form(formSource);
+
+		if(this.prevBind)
+		{
+			this.prevBind();
+		}
+
+		this.prevBind = this.args.form.value.bindTo((vv,kk)=>{
+			entity.args.states[kk] = vv;
+		});
+
+		this.args.states = Object.keys(entity.args.states);
 	}
 
 	add(newState)
 	{
-		console.log(newState);
-
 		if(!this.args.focus)
+		{
+			return;
+		}
+
+		if(this.args.focus.args.states[newState])
 		{
 			return;
 		}

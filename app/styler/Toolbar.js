@@ -19,6 +19,9 @@ export class Toolbar extends View
 		this.args.bindTo('filter', (v, k) => {
 			this.args.main.args.filter = v;
 		});
+		this.args.bindTo('search', (v, k) => {
+			this.args.main.args.search = v;
+		});
 	}
 
 	add(event, addType)

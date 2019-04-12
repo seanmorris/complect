@@ -15,9 +15,9 @@ export class Styler extends View
 		this.args.styles = {};
 		this.args.states = [];
 		this.args.focus  = null;
-		this.args.status = null;
-
-		let prevDebind = null;
+		this.args.status = 'all states';
+		this.args.search = null;
+		this.prevDebind  = null;
 
 		this.args.bindTo('filter', (v, k) => {
 			if(!this.args.focus)
@@ -25,32 +25,28 @@ export class Styler extends View
 				return;
 			}
 
-			// console.log(v, this.args.focus);
-
 			let styles = getComputedStyle(this.args.focus.rootTag());
 
 			this.reloadForm(styles);
 
-			if(prevDebind)
+		}, {wait: 0});
+
+		this.args.bindTo('search', (v, k) => {
+			console.log(v);
+
+			if(!this.args.focus)
 			{
-				prevDebind();
+				return;
 			}
 
-			let styleDebind = this.args.form.value.bindTo((v,k) => {
-				// console.log(k,v);
-				this.args.styles[k] = v;
-			});
+			let styles = getComputedStyle(this.args.focus.rootTag());
 
-			prevDebind = () => {
-				styleDebind();
-			};
-		}, {wait: 0});
+			this.reloadForm(styles, v);
+		});
 	}
 
 	postRender()
 	{
-		let prevDebind = null;
-
 		this.args.bindTo('focus', (v,k,t) => {
 			if(!v)
 			{
@@ -59,38 +55,8 @@ export class Styler extends View
 
 			let styles = getComputedStyle(v.rootTag());
 
-			this.reloadForm(styles)
+			this.reloadForm(styles);
 
-			let styleDebind = this.args.form.value.bindTo((v,k) => {
-				// console.log(k,v);
-				this.args.styles[k] = v;
-			});
-
-			let stateDebind = v.args.states.bindTo((vv, kk, tt)=>{
-				if(!v)
-				{
-					return;
-				}
-
-				this.args.states = v.activeStates();
-				this.args.status = this.args.states.map(x=>`+${x}`).join(' ');
-
-				if(!this.args.status)
-				{
-					this.args.status = 'all states';
-				}
-
-			}, {wait: 0});
-
-			if(prevDebind)
-			{
-				prevDebind();
-			}
-
-			prevDebind = () => {
-				stateDebind();
-				styleDebind();
-			};
 		}, {wait: 0});
 
 		this.args.styles.bindTo((v,k,t) => {
@@ -120,7 +86,7 @@ export class Styler extends View
 		});
 	}
 
-	reloadForm(styles)
+	reloadForm(styles, filter = null)
 	{
 		let formSource = {"_method": "get"};
 
@@ -173,6 +139,11 @@ export class Styler extends View
 
 			let rule = i;
 
+			if(filter && !rule.match(new RegExp(filter)))
+			{
+				continue;
+			}
+
 			formSource[rule] =  {
 				"name":  rule,
 				"title": rule,
@@ -187,5 +158,35 @@ export class Styler extends View
 		}
 
 		this.args.form = new Form(formSource);
+
+		if(this.prevDebind)
+		{
+			this.prevDebind();
+		}
+
+		let styleDebind = this.args.form.value.bindTo((v,k) => {
+			this.args.styles[k] = v;
+		});
+
+		let stateDebind = this.args.focus.args.states.bindTo((vv, kk, tt)=>{
+			if(!this.args.focus)
+			{
+				return;
+			}
+
+			this.args.states = this.args.focus.activeStates();
+			this.args.status = this.args.states.map(x=>`+${x}`).join(' ');
+
+			if(!this.args.status)
+			{
+				this.args.status = 'all states';
+			}
+
+		}, {wait: 0});
+
+		this.prevDebind = () => {
+			stateDebind();
+			styleDebind();
+		};
 	}
 }

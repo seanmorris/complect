@@ -8,10 +8,11 @@
 	flex-direction:  row-reverse !important;
 	justify-content: flex-end;
 	align-items:     center;
+	cursor:          pointer;
 }
 
 .stator > form > label > input {
-	margin: 0.25em;
+	margin-right: 0.5em;
 	/*zoom: 1.5;*/
 	width: auto !important;
 	display: inline !important;
