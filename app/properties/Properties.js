@@ -22,11 +22,6 @@ export class Properties extends View
 
 			let formSource = {"_method": "get"};
 
-			if(!v.args.name)
-			{
-				v.args.name = '_' + v.args._id;
-			}
-
 			formSource.name =  {
 				"name":  'name',
 				"title": 'name',

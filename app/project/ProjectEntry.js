@@ -53,7 +53,9 @@ export class ProjectEntry extends View
 			"attrs": {
 				"type": 'button',
 				"name": 'save',
-				"id":   'save'
+				"id":   'save',
+
+				"cv-on": 'click:click(event)',
 			}
 		};
 
@@ -70,6 +72,10 @@ export class ProjectEntry extends View
 		};
 
 		this.args.form = new Form(formSource);
+
+		this.args.form.fields.buttons.fields.save.click = ()=>{
+			console.log(this.args.project);
+		};
 
 		if(this.prevBind)
 		{

@@ -6,12 +6,19 @@ export class Entity extends View
 	constructor(args)
 	{
 		super(args);
-		this.type           = 'base entity';
+		this.type           = 'entity';
 		this.preserve       = true;
 
 		this.template       = require('./entity.tmp');
 		this.args.name      = this.args.name   || '';
 		this.args.styles    = this.args.styles || {};
+
+		if(!this.args.name)
+		{
+			this.args.name = '_' + this.args._id;
+		}
+
+
 		this.args._children = [];
 		this.args.children  = new Bag((item, meta, change)=>{
 			if(!change)
@@ -80,6 +87,8 @@ export class Entity extends View
 		this.args.styles[selector][rule] = value;
 
 		this.args._styles = this.compileStyles();
+
+		console.log(JSON.stringify(this.export(), null, 4));
 	}
 
 	compileStyles()
@@ -173,5 +182,38 @@ export class Entity extends View
 	blur()
 	{
 		this.args.metaStates['click'] = false;
+	}
+
+	import()
+	{
+
+	}
+
+	export()
+	{
+		let styles = {};
+
+		for(let  i in this.args.styles)
+		{
+			// styles[i] = this.args.styles[i];
+			styles[i] = styles[i] || {};
+
+			for(let j in this.args.styles[i])
+			{
+				styles[i][j] = this.args.styles[i][j];
+			}
+
+			console.log(i, styles[i]);
+		}
+
+		console.log(styles);
+
+		return {
+			type:   this.type
+			, name:   this.args.name
+			, styles: styles
+			, states:   this.args.states
+			, children: this.args._children.map(c=>c.args.name)
+		};
 	}
 }

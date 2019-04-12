@@ -7,11 +7,11 @@ Config.styleFilters.basic = {
 	display:      null
 	, width:      'auto'
 	, height:     'auto'
+	, background: null
 	, padding:    null
 	, margin:     null
 	, border:     null
 	, color:      null
-	, background: null
 	, flex:       null
 
 	, 'flex-direction':  null
