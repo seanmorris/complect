@@ -1,5 +1,6 @@
-import { View } from 'curvature/base/View';
-import { Form } from 'curvature/form/Form';
+import { View    } from 'curvature/base/View';
+import { Form    } from 'curvature/form/Form';
+import { Toolbar } from './Toolbar';
 
 export class Styler extends View
 {
@@ -7,7 +8,9 @@ export class Styler extends View
 	{
 		super(args);
 
-		this.template    = require('./styler.tmp');
+		this.template = require('./styler.tmp');
+		this.toolbar  = new Toolbar({main: this});
+
 		this.args.styles = {};
 		this.args.states = [];
 		this.args.focus  = null;

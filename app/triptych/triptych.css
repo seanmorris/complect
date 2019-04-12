@@ -114,3 +114,13 @@
 .triptych .column .entry input {
 	width: 100%;
 }
+
+.triptych .column .entry-toolbar button {
+	width: 1.5em;
+}
+
+.triptych .column .entry-toolbar input {
+	width: auto;
+	display: inline;
+	margin-bottom: 0px;
+}

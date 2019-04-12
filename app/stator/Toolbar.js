@@ -17,8 +17,8 @@ export class Toolbar extends View
 		this.args.addType = 'baseEntity';
 	}
 
-	add(event, addType)
+	add(event, newState)
 	{
-		this.args.main.add(addType);
+		this.args.main.add(newState);
 	}
 }

@@ -11,8 +11,8 @@ export class Label extends Entity
 		this.template = require('./label.tmp');
 
 
-		this.args.bindTo('content', (v,k)=>{
-			console.log(k,v);
-		});
+		// this.args.bindTo('content', (v,k)=>{
+		// 	console.log(k,v);
+		// });
 	}
 }

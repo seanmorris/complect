@@ -19,6 +19,8 @@ export class Toolbar extends View
 
 	add(event, addType)
 	{
+		console.log(addType);
+
 		this.args.main.add(addType);
 	}
 }
