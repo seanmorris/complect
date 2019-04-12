@@ -14,7 +14,10 @@ export class Toolbar extends View
 			, 'Form':      'form'
 		};
 
-		this.args.addType = 'baseEntity';
+		this.args.addType = 'label';
+
+		this.args.showAdd = false;
+		this.args.disabled = '';
 	}
 
 	add(event, addType)

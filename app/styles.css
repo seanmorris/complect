@@ -1,6 +1,7 @@
 * {
-	margin:  0px;
-	padding: 0px;
+	margin:      0px;
+	padding:     0px;
+	font-family: anonymous-pro;
 }
 
 html, body {
@@ -8,7 +9,7 @@ html, body {
 }
 
 html {
-	background: #DDD;
+	background: #AAA;
 }
 
 body {
@@ -23,9 +24,9 @@ body {
 
 .complect > .header,
 .complect > .footer {
-	margin-left: 1em;
-	margin-right: 1em;
-	margin-top: 0.5em;
+	margin-left:   1em;
+	margin-right:  1em;
+	margin-top:    0.5em;
 	margin-bottom: 0.5em;
 }
 

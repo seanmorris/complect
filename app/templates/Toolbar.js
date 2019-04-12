@@ -14,18 +14,11 @@ export class Toolbar extends View
 			, 'Form':      'form'
 		};
 
-		this.args.filter = 'basic';
-
-		this.args.bindTo('filter', (v, k) => {
-			this.args.main.args.filter = v;
-		});
-		this.args.bindTo('search', (v, k) => {
-			this.args.main.args.search = v;
-		}, {wait: 100});
+		this.args.addType = 'baseEntity';
 	}
 
-	add(event, addType)
+	add(event, newState)
 	{
-		// this.args.main.add(addType);
+		this.args.main.add(newState);
 	}
 }

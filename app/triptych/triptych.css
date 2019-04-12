@@ -2,7 +2,7 @@
 	display:         flex;
 	flex:            1;
 	justify-content: space-between;
-
+	
 	position: absolute;
 	top:      0px;
 	left:     0px;
@@ -35,10 +35,12 @@
 	top:         0px;
 	cursor:      pointer;
 	user-select: none;
+	font-weight: bold;
 }
 
 .triptych .column {
 	transition: 0.2s width ease-out;
+	/*font-size:  0.8em;*/
 }
 
 .triptych .entry-toggle {
@@ -69,7 +71,7 @@
 }
 
 .triptych .column .entry > .entry-toolbar {
-	background-color: #666;
+	background-color: #999;
 }
 .triptych .column .entry.collapsed > .entry-toolbar,
 .triptych .column.expanded .entry.collapsed > .entry-content {
@@ -89,7 +91,7 @@
 }
 
 .triptych .column.expanded .entry-content {
-	background: #AAA;
+	background: #CCC;
 }
 
 .triptych .column.collapsed .entry-title,
@@ -107,9 +109,23 @@
 .triptych .column .entry label,
 .triptych .column .entry input {
 	display: block;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
 	box-sizing: content-box;
+}
+
+.triptych .column .entry label:not(:first-child):not(:last-child),
+.triptych .column .entry fieldset {
+	margin-top: 0.33em;
+	margin-bottom: 0.33em;
+}
+
+.triptych .column .entry input,
+.triptych .column .entry select,
+.triptych .column .entry button {
+	padding:   0.333em;
+}
+
+.triptych .column .entry select[multiple] {
+	overflow: auto;
 }
 
 .triptych .column .entry label {
@@ -122,11 +138,26 @@
 }
 
 .triptych .column .entry-toolbar button {
-	width: 1.5em;
+	width: 2.25em;
 }
 
 .triptych .column .entry-toolbar input {
 	width: auto;
 	display: inline;
 	margin-bottom: 0px;
+}
+
+.triptych .column fieldset[id$="-buttons"] {
+	display: block;
+	border: none;
+}
+
+.triptych .column fieldset[id$="-buttons"] label {
+	/*display: inline;*/
+	float: right;
+}
+
+.triptych .column fieldset[id$="-buttons"] label input {
+	/*width: 25%;*/
+	/*display: block;*/
 }

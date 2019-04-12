@@ -12,7 +12,15 @@ export class Entry extends View
 		// this.args.toolbar  = 'toolbar';
 		this.args.content  = '';
 		this.args.expanded = 'expanded';
-		this.args.icon     = 'x';
+
+		this.args.bindTo('expanded', (v, k) => {
+			if(v === 'expanded')
+			{
+				this.args.icon = 'x';
+				return;
+			}
+			this.args.icon = '+';
+		});
 	}
 
 	click(event)
@@ -20,11 +28,9 @@ export class Entry extends View
 		if(this.args.expanded === 'expanded')
 		{
 			this.args.expanded = 'collapsed';
-			this.args.icon     = '+';
 			return;
 		}
 
 		this.args.expanded = 'expanded';
-		this.args.icon     = 'x';
 	}
 }

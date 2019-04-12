@@ -29,12 +29,9 @@ Config.styleFilters.basic = {
 };
 
 Config.styleFilters.formatting = {
-	padding:         null
-	, margin:        null
-	, color:         null
+	color:         null
 	, background:    null
 	, 'text-align':  null
-	, 'box-sizing':  null
 	, 'font-family': null
 	, 'font-weight': null
 	, 'font-size':   null
@@ -47,10 +44,16 @@ Config.styleFilters.positioning = {
 	display:      null
 	, width:      'auto'
 	, height:     'auto'
+	, position:   null
+	, left:       null
+	, right:      null
+	, top:        null
+	, bottom:     null
 	, padding:    null
 	, margin:     null
 	, flex:       null
 	, 'flex-direction':  null
 	, 'align-items':     null
 	, 'justify-content': null
+	, 'box-sizing':  null
 };

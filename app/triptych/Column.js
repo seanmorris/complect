@@ -13,38 +13,38 @@ export class Column extends View
 		super(args);
 
 		this.template      = require('./column.tmp');
-		this.args.expanded = 'expanded';
-		let mainEntry      = new Entry;
-		this.args.entries  = [mainEntry];
+		
+		this.mainEntry     = new Entry;
+		this.args.entries  = [this.mainEntry];
 
-		let content = {
-			'Properties':  new Properties
-			, 'Structure': new Builder
-			, 'States':    new Stator
-			, 'Styles':    new Styler
-		};
+		this.content       = {};		
 
-		for(let i in content)
+		this.cleanup.push(this.mainEntry.args.bindTo('expanded', (v)=>{
+			this.args.expanded = v;
+		}));
+
+		this.mainEntry.args.expanded = 'collapsed';
+
+		this.args.bindTo('title', (v) => {
+			this.mainEntry.args.title = v;
+		});
+	}
+
+	postRender()
+	{
+		for(let i in this.content)
 		{
 			let entry = new Entry;
 
 			entry.args.title   = i;
-			entry.args.content = content[i];
+			entry.args.content = this.content[i];
 
-			if(content[i].toolbar)
+			if(this.content[i].toolbar)
 			{
-				entry.args.toolbar = content[i].toolbar;
+				entry.args.toolbar = this.content[i].toolbar;
 			}
 
 			this.args.entries.push(entry);
 		}
-
-		this.cleanup.push(mainEntry.args.bindTo('expanded', (v)=>{
-			this.args.expanded = v;
-		}));
-
-		this.args.bindTo('title', (v) => {
-			mainEntry.args.title = v;
-		});
 	}
 }

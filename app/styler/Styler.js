@@ -25,24 +25,18 @@ export class Styler extends View
 				return;
 			}
 
-			let styles = getComputedStyle(this.args.focus.rootTag());
-
-			this.reloadForm(styles);
+			this.reloadForm();
 
 		}, {wait: 0});
 
 		this.args.bindTo('search', (v, k) => {
-			console.log(v);
-
 			if(!this.args.focus)
 			{
 				return;
 			}
 
-			let styles = getComputedStyle(this.args.focus.rootTag());
-
-			this.reloadForm(styles, v);
-		});
+			this.reloadForm();
+		}, {wait: 0});
 	}
 
 	postRender()
@@ -80,13 +74,13 @@ export class Styler extends View
 			{
 				this.onTimeout(0, ()=>{
 					// this.tags.style[k].element.value = styles[k];
-					this.args.styles[k]              = styles[k];
+					this.args.styles[k] = styles[k];
 				});
 			}
 		});
 	}
 
-	reloadForm(styles, filter = null)
+	reloadForm()
 	{
 		let formSource = {"_method": "get"};
 
@@ -115,6 +109,8 @@ export class Styler extends View
 			, 'opacity':     null
 		};
 
+		let styles = getComputedStyle(this.args.focus.rootTag());
+
 		let configFilters;
 
 		if(configFilters = Config.styleFilters[ this.args.filter ])
@@ -131,7 +127,7 @@ export class Styler extends View
 			}
 		}
 
-		console.log(filteredStyles);
+		let filter = this.args.search;
 
 		for(let i in filteredStyles)
 		{
@@ -141,6 +137,7 @@ export class Styler extends View
 
 			if(filter && !rule.match(new RegExp(filter)))
 			{
+				console.log(filter);
 				continue;
 			}
 
