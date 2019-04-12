@@ -1,10 +1,11 @@
-<!-- <button cv-on = "click:add(event, addType);">+</button> --><select cv-bind = "addType">
-	<option value = "baseEntity">Basic</option>
-	<option value = "baseEntity">Populated</option>
-	<option value = "baseEntity">Formatting</option>
-	<option value = "baseEntity">Positioning</option>
-	<option value = "baseEntity">Flex</option>
-	<option value = "baseEntity">Grid</option>
-	<option value = "baseEntity">Animation</option>
-	<option value = "baseEntity">All</option>
-</select>
+<!-- <button cv-on = "click:add(event, addType);">+</button> -->
+<button cv-on = "click:childSelector(event);">&gt;</button><select cv-bind = "filter">
+	<option value = "basic">Basic</option>
+	<option value = "populated">Populated</option>
+	<option value = "formatting">Formatting</option>
+	<option value = "positioning">Positioning</option>
+	<option value = "flex">Flex</option>
+	<option value = "grid">Grid</option>
+	<option value = "animation">Animation</option>
+	<option value = "all">All</option>
+</select><input cv-bind = "search" placeholder = "search" />

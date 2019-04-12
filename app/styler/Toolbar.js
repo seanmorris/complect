@@ -14,13 +14,15 @@ export class Toolbar extends View
 			, 'Form':      'form'
 		};
 
-		this.args.addType = 'baseEntity';
+		this.args.filter = 'basic';
+
+		this.args.bindTo('filter', (v, k) => {
+			this.args.main.args.filter = v;
+		});
 	}
 
 	add(event, addType)
 	{
-		console.log(addType);
-
-		this.args.main.add(addType);
+		// this.args.main.add(addType);
 	}
 }

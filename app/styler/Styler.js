@@ -1,3 +1,4 @@
+import { Config  } from 'Config';
 import { View    } from 'curvature/base/View';
 import { Form    } from 'curvature/form/Form';
 import { Toolbar } from './Toolbar';
@@ -15,6 +16,35 @@ export class Styler extends View
 		this.args.states = [];
 		this.args.focus  = null;
 		this.args.status = null;
+
+		let prevDebind = null;
+
+		this.args.bindTo('filter', (v, k) => {
+			if(!this.args.focus)
+			{
+				return;
+			}
+
+			// console.log(v, this.args.focus);
+
+			let styles = getComputedStyle(this.args.focus.rootTag());
+
+			this.reloadForm(styles);
+
+			if(prevDebind)
+			{
+				prevDebind();
+			}
+
+			let styleDebind = this.args.form.value.bindTo((v,k) => {
+				// console.log(k,v);
+				this.args.styles[k] = v;
+			});
+
+			prevDebind = () => {
+				styleDebind();
+			};
+		}, {wait: 0});
 	}
 
 	postRender()
@@ -29,53 +59,7 @@ export class Styler extends View
 
 			let styles = getComputedStyle(v.rootTag());
 
-			let filteredStyles = {
-				display:      null
-				, width:      'auto'
-				, height:     'auto'
-				, padding:    null
-				, margin:     null
-				, border:     null
-				, color:      null
-				, background: null
-				, flex:       null
-
-				, 'flex-direction':  null
-				, 'align-items':     null
-				, 'justify-content': null
-
-				, 'box-sizing':   null
-
-				, 'font-family': null
-				, 'font-weight': null
-				, 'font-size':   null
-				, 'transition':  null
-				, 'transform':   null
-				, 'opacity':     null
-			};
-
-			let formSource = {"_method": "get"};
-
-			for(let i in filteredStyles)
-			{
-				this.args.styles[i] = styles.getPropertyValue(i);
-
-				let rule = i;
-
-				formSource[rule] =  {
-					"name":  rule,
-					"title": rule,
-					"type": "text",
-					"value": styles.getPropertyValue(i),
-					"attrs": {
-						"type": "text",
-						"name": rule,
-						"id":   rule
-					}
-				};
-			}
-
-			this.args.form = new Form(formSource);
+			this.reloadForm(styles)
 
 			let styleDebind = this.args.form.value.bindTo((v,k) => {
 				// console.log(k,v);
@@ -134,5 +118,74 @@ export class Styler extends View
 				});
 			}
 		});
+	}
+
+	reloadForm(styles)
+	{
+		let formSource = {"_method": "get"};
+
+		let filteredStyles = {
+			display:      null
+			, width:      'auto'
+			, height:     'auto'
+			, padding:    null
+			, margin:     null
+			, border:     null
+			, color:      null
+			, background: null
+			, flex:       null
+
+			, 'flex-direction':  null
+			, 'align-items':     null
+			, 'justify-content': null
+
+			, 'box-sizing':   null
+
+			, 'font-family': null
+			, 'font-weight': null
+			, 'font-size':   null
+			, 'transition':  null
+			, 'transform':   null
+			, 'opacity':     null
+		};
+
+		let configFilters;
+
+		if(configFilters = Config.styleFilters[ this.args.filter ])
+		{
+			filteredStyles = configFilters;
+		}
+		else
+		{
+			filteredStyles = {};
+
+			for(let i = 0; i < styles.length; i++)
+			{
+				filteredStyles[ styles.item( i ) ] = null;
+			}
+		}
+
+		console.log(filteredStyles);
+
+		for(let i in filteredStyles)
+		{
+			this.args.styles[i] = styles.getPropertyValue(i);
+
+			let rule = i;
+
+			formSource[rule] =  {
+				"name":  rule,
+				"title": rule,
+				"type": "text",
+				"value": styles.getPropertyValue(i),
+				"attrs": {
+					"type": "text",
+					"name": rule,
+					"id":   rule
+				}
+			};
+		}
+
+		this.args.form = new Form(formSource);
 	}
 }

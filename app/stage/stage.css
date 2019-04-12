@@ -10,6 +10,7 @@
 	margin-right:   1em;
 
 	cursor:         crosshair;
+	user-select:    none;
 }
 
 [data-metastate~="hover"] {

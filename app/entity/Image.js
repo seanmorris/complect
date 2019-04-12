@@ -5,7 +5,7 @@ export class Image extends Entity
 	constructor(args)
 	{
 		super(args);
-		this.args.src = ''
+		this.args.src = '';
 
 		this.type     = 'label';
 		this.template = require('./image.tmp');
