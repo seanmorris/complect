@@ -78,5 +78,7 @@ export class Stator extends View
 		this.args.focus.args.states[newState] = false;
 
 		this.buildForm(this.args.focus);
+
+		this.args.newState = null;
 	}
 }

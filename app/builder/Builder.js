@@ -74,6 +74,8 @@ export class Builder extends View
 
 		entity.args.children.add(child);
 
+		this.args.project.addComponent(child);
+
 		this.reloadList(entity);
 		this.buildForm(entity);
 	}

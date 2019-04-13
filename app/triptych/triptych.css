@@ -25,9 +25,28 @@
 	display: none; 
 } 
 
+.triptych .column{
+	font-family: 'courier new';
+	font-family: 'anonymous pro', monospace;
+}
+
 .triptych .column .entry-titlebar,
-.triptych .column .entry-content:not(:empty) {
-	padding: 0.5em;
+.triptych .column .entry label > span:not(:empty),
+.triptych .column .entry p,
+.triptych .column .entry input,
+.triptych .column .entry fieldset,
+.triptych .column .entry select,
+.triptych .column .entry input {
+	padding:   0.5em;
+	font-family: 'anonymous pro', monospace;
+}
+
+.triptych .column .entry-content select {
+	overflow: hidden;
+}
+
+.triptych .column .entry-content label[data-type="checkbox"] {
+	padding: 1em;
 }
 
 .triptych .column .entry-titlebar {
@@ -53,7 +72,7 @@
 }
 
 .triptych .column.expanded {
-	width: 20em;
+	width: 17em;
 }
 
 .triptych .column .entry {
@@ -122,6 +141,7 @@
 .triptych .column .entry select,
 .triptych .column .entry button {
 	padding:   0.333em;
+	/*font-size: 0.8em;*/
 }
 
 .triptych .column .entry select[multiple] {

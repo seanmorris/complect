@@ -20,22 +20,21 @@ export class Triptych extends View
 		this.template    = require('./triptych.tmp');
 
 		let project      = new Project;
-		let entity       = new Entity;
+
 		let stage        = new Stage({
-			rootEntity: entity
+			rootEntity: null
 			, triptych: this
 			, project
 		});
 
-		let left         = new ProjectColumn({project});
-		let right        = new ObjectColumn({project});
+		let left          = new ProjectColumn;
+		let right         = new ObjectColumn;
 
-		this.stage       = stage;
+		this.stage        = stage;
 
-		left.args.title  = 'complect 0.01';
-		right.args.title = 'Object';
+		left.args.title   = 'complect 0.01';
+		right.args.title  = 'Object';
 
-		this.args.entity  = entity;
 		this.args.left    = left;
 		this.args.center  = stage;
 		this.args.right   = right;
@@ -44,11 +43,32 @@ export class Triptych extends View
 
 	postRender()
 	{
-		let entity = this.args.entity;
-		let left   = this.args.left;
-		let right  = this.args.right;
+		let left    = this.args.left;
+		let right   = this.args.right;
+		let project = this.args.project;
+		let stage   = this.stage;
 
-		this.focus(entity);
+		left.args.project  = project;
+		right.args.project = project;
+
+		project.bindTo('_currentTemplate', (v,k,t) => {
+			if(!v)
+			{
+				return;
+			}
+
+			// console.log(JSON.stringify(
+			// 	stage.args.rootEntity.export()
+			// 	, null
+			// 	, 4
+			// ));
+
+			this.focus(v.rootEntity);
+
+			v.rootEntity.stage = stage;
+
+			stage.args.rootEntity = v.rootEntity;
+		});
 
 		for(let i in left.args.entries)
 		{
@@ -59,13 +79,28 @@ export class Triptych extends View
 
 			let entry = left.args.entries[i].args.content;
 
-			entry.args.project = this.args.project;
+			entry.args.project = project;
 		}
+
+		for(let i in right.args.entries)
+		{
+			if(!right.args.entries[i].args.content)
+			{
+				continue;
+			}
+
+			let entry = right.args.entries[i].args.content;
+
+			entry.args.project = project;
+		}
+
+		let template = project.addTemplate();
+
+		project.currentTemplate(template.name);
 	}
 
 	focus(entity)
 	{
-		let thing  = this.args.entity;
 		let right  = this.args.right;
 
 		for(let i in right.args.entries)

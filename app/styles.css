@@ -1,7 +1,7 @@
 * {
 	margin:      0px;
 	padding:     0px;
-	font-family: anonymous-pro;
+	-webkit-text-size-adjust: none
 }
 
 html, body {

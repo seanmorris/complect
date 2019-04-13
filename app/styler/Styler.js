@@ -47,6 +47,13 @@ export class Styler extends View
 				return;
 			}
 
+			let rootTag = v.rootTag();
+
+			if(!rootTag)
+			{
+				return;
+			}
+
 			let styles = getComputedStyle(v.rootTag());
 
 			this.reloadForm(styles);

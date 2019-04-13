@@ -7,7 +7,7 @@ export class Entity extends View
 	{
 		super(args);
 		this.type           = 'entity';
-		this.preserve       = true;
+		// this.preserve       = true;
 
 		this.template       = require('./entity.tmp');
 		this.args.name      = this.args.name   || '';
@@ -88,7 +88,9 @@ export class Entity extends View
 
 		this.args._styles = this.compileStyles();
 
-		console.log(JSON.stringify(this.export(), null, 4));
+		console.log(JSON.stringify(
+			this.project.export()
+		, null,4));
 	}
 
 	compileStyles()
@@ -202,11 +204,9 @@ export class Entity extends View
 			{
 				styles[i][j] = this.args.styles[i][j];
 			}
-
-			console.log(i, styles[i]);
 		}
 
-		console.log(styles);
+		// console.log( JSON.stringify(this.args._children.map(c=>c.export())) );
 
 		return {
 			type:   this.type

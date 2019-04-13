@@ -7,11 +7,18 @@ export class Stage extends View
 	{
 		super(args);
 
-		this.args.rootEntity = this.args.rootEntity || new Entity;
+		this.args.rootEntity = this.args.rootEntity || null;
 		this.template        = require('./stage.tmp');
 		this.focused         = null;
 
-		this.args.rootEntity.stage = this;
+		this.args.bindTo('rootEntity', (v) => {
+			if(!v)
+			{
+				return;
+			}
+
+			v.stage = this;
+		});
 	}
 
 	getTemplate()
