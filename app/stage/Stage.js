@@ -19,6 +19,13 @@ export class Stage extends View
 
 			v.stage = this;
 		});
+
+		this._attached = false;
+
+		this.resizeListener = (event) =>{
+			let _window = event.target;
+			console.log(_window.innerWidth, _window.innerHeight);
+		}
 	}
 
 	getTemplate()
@@ -48,5 +55,33 @@ export class Stage extends View
 		this.focused = entity;
 
 		this.args.triptych.focus(entity);
+	}
+
+	attached(event)
+	{
+		if(this._attached)
+		{
+			return;
+		}
+
+		let _window;
+
+		if(_window = this.tags.stage.element.contentWindow)
+		{
+			let _document = _window.document;
+
+			_window.addEventListener('resize', this.resizeListener);
+
+			this.cleanup.push(()=>{
+				_window.removeEventListener('resize', this.resizeListener);				
+			});
+
+			this.args.rootEntity.render(
+				_document.querySelector('body')
+			);
+
+			this._attached = true;
+		}
+
 	}
 }

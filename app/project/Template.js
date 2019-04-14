@@ -43,6 +43,10 @@ export class Template
 
 	export()
 	{
-
+		return {
+			id:     this._id
+			, name: this.name
+			, root: this.rootEntity.args._id
+		};
 	}
 }

@@ -15,4 +15,15 @@ export class Label extends Entity
 		// 	console.log(k,v);
 		// });
 	}
+
+	export()
+	{
+		let _export = super.export();
+
+		_export.properties = {
+			content: this.args.content
+		};
+
+		return _export;
+	}
 }

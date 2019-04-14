@@ -11,6 +11,13 @@
 
 	cursor:         crosshair;
 	user-select:    none;
+
+	overflow:       hidden;
+}
+
+.stage iframe {
+	flex: 1;
+	border: none;
 }
 
 [data-metastate~="hover"] {

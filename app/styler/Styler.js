@@ -25,6 +25,13 @@ export class Styler extends View
 				return;
 			}
 
+			if(!this.args.focus.rootTag())
+			{
+				return;
+			}
+
+			console.log(this.args.focus.rootTag());
+
 			this.reloadForm();
 
 		}, {wait: 0});
@@ -34,6 +41,13 @@ export class Styler extends View
 			{
 				return;
 			}
+
+			if(!this.args.focus.rootTag())
+			{
+				return;
+			}
+
+			console.log(this.args.focus.rootTag());
 
 			this.reloadForm();
 		}, {wait: 0});

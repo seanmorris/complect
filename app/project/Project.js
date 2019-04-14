@@ -71,6 +71,8 @@ export class Project
 
 		for(let i in this.templates)
 		{
+			console.log(this.templates[i].export());
+
 			templates[i] = this.templates[i].export();
 		}
 

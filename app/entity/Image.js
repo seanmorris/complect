@@ -15,4 +15,15 @@ export class Image extends Entity
 			console.log(k,v);
 		});
 	}
+
+	export()
+	{
+		let _export = super.export();
+
+		_export.properties = {
+			src: this.args.src
+		};
+
+		return _export;
+	}
 }
