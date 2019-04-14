@@ -46,6 +46,12 @@ export class Triptych extends View
 		left.args.project  = project;
 		right.args.project = project;
 
+		this.stage = new Stage({
+			rootEntity: null
+			, triptych: this
+			, project
+		});
+
 		project.bindTo('_currentTemplate', (v,k,t) => {
 			if(!v)
 			{
@@ -64,6 +70,8 @@ export class Triptych extends View
 				, project
 			});
 
+			project.stage = this.stage;
+
 			this.focus(v.rootEntity);
 
 			v.rootEntity.stage = this.stage;
@@ -71,6 +79,30 @@ export class Triptych extends View
 			this.stage.args.rootEntity = v.rootEntity;
 
 			this.args.center = this.stage;
+
+			for(let i in left.args.entries)
+			{
+				if(!left.args.entries[i].args.content)
+				{
+					continue;
+				}
+
+				let entry = left.args.entries[i].args.content;
+
+				entry.stage = this.stage;
+			}
+
+			for(let i in right.args.entries)
+			{
+				if(!right.args.entries[i].args.content)
+				{
+					continue;
+				}
+
+				let entry = right.args.entries[i].args.content;
+
+				entry.stage = this.stage;
+			}
 		});
 
 		for(let i in left.args.entries)
@@ -83,6 +115,8 @@ export class Triptych extends View
 			let entry = left.args.entries[i].args.content;
 
 			entry.args.project = project;
+			entry.stage        = this.stage;
+			
 		}
 
 		for(let i in right.args.entries)
@@ -95,7 +129,10 @@ export class Triptych extends View
 			let entry = right.args.entries[i].args.content;
 
 			entry.args.project = project;
+			entry.stage        = this.stage;
 		}
+
+		project.stage = this.stage;
 
 		let template = project.addTemplate();
 

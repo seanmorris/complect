@@ -11,6 +11,7 @@ export class Project
 		this.templates  = Bindable.makeBindable({});
 		this.components = Bindable.makeBindable({});
 		this.styles     = Bindable.makeBindable({});
+		this.stage      = null;
 
 		this._currentTemplate = null;
 
@@ -23,7 +24,7 @@ export class Project
 
 	addTemplate()
 	{
-		let template = new Template;
+		let template = new Template(null, this.stage);
 
 		template.project = this;
 
@@ -61,6 +62,7 @@ export class Project
 
 	export()
 	{
+		let name       = this.name;
 		let components = {};
 		let templates  = {};
 
@@ -71,12 +73,10 @@ export class Project
 
 		for(let i in this.templates)
 		{
-			console.log(this.templates[i].export());
-
 			templates[i] = this.templates[i].export();
 		}
 
-		return {templates,components};
+		return {name,templates,components};
 	}
 
 	import()

@@ -11,6 +11,10 @@ export class Stage extends View
 		this.template        = require('./stage.tmp');
 		this.focused         = null;
 
+		this.document        = null;
+		this.head            = null;
+		this.body            = null;
+
 		this.args.bindTo('rootEntity', (v) => {
 			if(!v)
 			{
@@ -57,6 +61,16 @@ export class Stage extends View
 		this.args.triptych.focus(entity);
 	}
 
+	getWindow()
+	{
+		if(!this.tags.stage)
+		{
+			return;
+		}
+
+		return this.tags.stage.element.contentWindow;
+	}
+
 	attached(event)
 	{
 		if(this._attached)
@@ -64,9 +78,9 @@ export class Stage extends View
 			return;
 		}
 
-		let _window;
+		let _window = this.getWindow();
 
-		if(_window = this.tags.stage.element.contentWindow)
+		if(_window)
 		{
 			let _document = _window.document;
 
@@ -76,9 +90,7 @@ export class Stage extends View
 				_window.removeEventListener('resize', this.resizeListener);				
 			});
 
-			this.args.rootEntity.render(
-				_document.querySelector('body')
-			);
+			this.args.rootEntity.render(_document.querySelector('body'));
 
 			this._attached = true;
 		}

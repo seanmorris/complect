@@ -4,7 +4,7 @@ import { Entity } from '../entity/Entity';
 
 export class Template
 {
-	constructor(name )
+	constructor(name = null, stage = null)
 	{
 		this._id        = this.uuid();
 		this.name       = name || '_' + this._id;
@@ -12,6 +12,7 @@ export class Template
 		this.templates  = {};
 		this.components = {};
 		this.styles     = {};
+		this.stage      = stage;
 
 		let bindable = Bindable.makeBindable(this);
 
@@ -27,7 +28,7 @@ export class Template
 			v.addComponent(this.rootEntity);
 		});
 
-		this.rootEntity = new Entity;
+		this.rootEntity = new Entity({}, this.stage);
 
 		return bindable;
 	}

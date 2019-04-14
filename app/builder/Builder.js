@@ -57,16 +57,16 @@ export class Builder extends View
 		switch(addType)
 		{
 			case 'label':
-				child = new Label;
+				child = new Label({},this.stage);
 				break;
 
 			case 'image':
-				child = new Image;
+				child = new Image({},this.stage);
 				break;
 
 			default:
 			case 'baseEntity':
-				child = new Entity;
+				child = new Entity({},this.stage);
 				break;
 		}
 

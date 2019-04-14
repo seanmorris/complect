@@ -74,7 +74,10 @@ export class ProjectEntry extends View
 		this.args.form = new Form(formSource);
 
 		this.args.form.fields.buttons.fields.save.click = ()=>{
-			console.log(this.args.project);
+			console.log(JSON.stringify(
+				this.args.project.export()
+			, null,4));
+			
 		};
 
 		if(this.prevBind)

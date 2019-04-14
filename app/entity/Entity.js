@@ -1,17 +1,25 @@
 import { Bag  } from 'curvature/base/Bag';
 import { View } from 'curvature/base/View';
 
+import { Styles } from '../stage/Styles';
+
 export class Entity extends View
 {
-	constructor(args)
+	constructor(args,stage)
 	{
+		console.trace();
 		super(args);
 		this.type           = 'entity';
 		this.preserve       = true;
+		this.stage          = stage;
 
 		this.template       = require('./entity.tmp');
 		this.args.name      = this.args.name   || '_' + this.args._id;
 		this.args.styles    = this.args.styles || {};
+
+		this.styleView      = new Styles;
+
+		this.styleView.args.templateId = this.args._id;
 
 		this.args._children = [];
 		this.args.children  = new Bag((item, meta, change)=>{
@@ -46,7 +54,9 @@ export class Entity extends View
 
 			tag.setAttribute('class', v);
 
-			this.args._styles = this.compileStyles();
+			this.args._styles              = this.compileStyles();
+			this.styleView.args.content    = this.args._styles;
+			this.styleView.args.templateId = this.args._id;
 		},{wait:0});
 
 		this.args.states.bindTo((v,k) => {
@@ -65,6 +75,18 @@ export class Entity extends View
 		}, {wait: 0});
 	}
 
+	postRender()
+	{
+		let stageWindow   = this.stage.getWindow();
+		let stageDocument = stageWindow.document
+		let head          = stageDocument.querySelector('head');
+
+		if(head)
+		{
+			this.styleView.render(head);
+		}
+	}
+
 	addStyle(rule, value, states = [])
 	{
 		states = states.slice(0);
@@ -80,13 +102,14 @@ export class Entity extends View
 
 		this.args.styles[selector][rule] = value;
 
-		this.args._styles = this.compileStyles();
+		this.args._styles              = this.compileStyles();
+		this.styleView.args.content    = this.args._styles;
 
-		console.log(this.args._styles);
+		// console.log(this.args._styles);
 
-		console.log(JSON.stringify(
-			this.project.export()
-		, null,4));
+		// console.log(JSON.stringify(
+		// 	this.project.export()
+		// , null,4));
 	}
 
 	compileStyles()
@@ -113,6 +136,20 @@ export class Entity extends View
 	{
 		return this.rootTag().outerHTML;
 	}
+
+	// getAllStyles()
+	// {
+	// 	let styles = {};
+
+	// 	styles[this.args._id] = this.compileStyles();
+
+	// 	for(let i in this.args.children)
+	// 	{
+	// 		Object.assign(styles, this.args.children[i].compileStyles());
+	// 	}
+
+	// 	return styles;
+	// }
 
 	activeStates()
 	{

@@ -7,4 +7,9 @@ export class Toolbar extends View
 		super(args);
 		this.template = require('./toolbar.tmp');
 	}
+
+	// export()
+	// {
+	// 	this.main.export();
+	// }
 }

@@ -2,9 +2,9 @@ import { Entity } from './Entity';
 
 export class Image extends Entity
 {
-	constructor(args)
+	constructor(args,stage)
 	{
-		super(args);
+		super(args,stage);
 		this.args.src = '';
 
 		this.type     = 'image';
