@@ -16,7 +16,7 @@ export class Project
 		this._currentTemplate = null;
 
 		this.bindTo('name', (v) => {
-			console.log(v);
+			// console.log(v);
 		});
 
 		return bindable;
@@ -35,14 +35,16 @@ export class Project
 
 	addComponent(entity)
 	{
-		if(this.components[ entity.args.name ])
+		if(this.components[ entity.args._id ])
 		{
 			throw new Error(`Component with id "${entity.args.name}" exists!`);
 		}
 
 		entity.project = this;
 
-		this.components[ entity.args.name ] = entity;
+		// this.stage.args.styles[ entity.args._id ] = entity.styleView;
+
+		this.components[ entity.args._id ] = entity;
 	}
 
 	currentTemplate(id)

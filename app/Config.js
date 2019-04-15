@@ -1,7 +1,6 @@
 export class Config{};
 
 Config.title = 'Complect';
-
 Config.styleFilters = {};
 Config.styleFilters.basic = {
 	display:      null
@@ -57,3 +56,5 @@ Config.styleFilters.positioning = {
 	, 'justify-content': null
 	, 'box-sizing':  null
 };
+
+window.devmode = true;

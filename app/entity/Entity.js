@@ -7,7 +7,7 @@ export class Entity extends View
 {
 	constructor(args,stage)
 	{
-		console.trace();
+		// console.trace();
 		super(args);
 		this.type           = 'entity';
 		this.preserve       = true;

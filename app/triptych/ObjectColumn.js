@@ -17,7 +17,7 @@ export class ObjectColumn extends Column
 		this.content       = {
 			'Properties':    new Properties
 			, 'Structure':   new Builder
-			, 'Breakpoints': new Breakpoints
+			// , 'Breakpoints': new Breakpoints
 			, 'States':      new Stator
 			, 'Styles':      new Styler
 		};

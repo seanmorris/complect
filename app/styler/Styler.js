@@ -9,12 +9,15 @@ export class Styler extends View
 	{
 		super(args);
 
+		this.stage    = null;
+		this.project  = null;
 		this.template = require('./styler.tmp');
 		this.toolbar  = new Toolbar({main: this});
 
 		this.args.styles = {};
 		this.args.states = [];
 		this.args.focus  = null;
+		this.args.stage  = null;
 		this.args.status = 'all states';
 		this.args.search = null;
 		this.prevDebind  = null;
@@ -30,8 +33,6 @@ export class Styler extends View
 				return;
 			}
 
-			console.log(this.args.focus.rootTag());
-
 			this.reloadForm();
 
 		}, {wait: 0});
@@ -46,8 +47,6 @@ export class Styler extends View
 			{
 				return;
 			}
-
-			console.log(this.args.focus.rootTag());
 
 			this.reloadForm();
 		}, {wait: 0});
@@ -95,7 +94,8 @@ export class Styler extends View
 			{
 				this.onTimeout(0, ()=>{
 					// this.tags.style[k].element.value = styles[k];
-					this.args.styles[k] = styles[k];
+					this.args.form.value[k] = styles[k];
+					this.args.styles[k]     = styles[k];
 				});
 			}
 		});

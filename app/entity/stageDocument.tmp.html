@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html>
+	<head></head>
+	<body
+		id             = "_[[_id]]"
+		class          = "[[name]]"
+		data-state     = "[[_states]]"
+		data-metastate = "[[_metaStates]]"
+		cv-each        = "_children:child:c"
+		cv-on          = "
+			mouseenter:hover(event);
+			mouseleave:unhover(event);
+			click:click(event, _id);
+		"
+	>[[child]]</body>
+</html>

@@ -2,6 +2,8 @@ import { Bindable } from 'curvature/base/Bindable';
 
 import { Entity } from '../entity/Entity';
 
+import { StageDocument } from '../entity/StageDocument';
+
 export class Template
 {
 	constructor(name = null, stage = null)
@@ -28,7 +30,9 @@ export class Template
 			v.addComponent(this.rootEntity);
 		});
 
-		this.rootEntity = new Entity({}, this.stage);
+		this.rootEntity = new StageDocument({}, this.stage);
+		// this.rootEntity = new Body({}, this.stage);
+		// this.rootEntity = new Entity({}, this.stage);
 
 		return bindable;
 	}

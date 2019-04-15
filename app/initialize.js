@@ -4,8 +4,13 @@ import { Router   } from 'curvature/base/Router';
 
 import { RootView } from './RootView';
 
-RuleSet.add('body', (tag)=>{
+RuleSet.add(':root > body', (tag)=>{
 	let view = new RootView;
+
+	if(tag.element, tag.element.parentNode.parentNode !== document)
+	{
+		return;
+	}
 
 	view.render(tag.element);
 });

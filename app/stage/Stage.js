@@ -11,9 +11,7 @@ export class Stage extends View
 		this.template        = require('./stage.tmp');
 		this.focused         = null;
 
-		this.document        = null;
-		this.head            = null;
-		this.body            = null;
+		this.args.styles     = {};
 
 		this.args.bindTo('rootEntity', (v) => {
 			if(!v)
@@ -82,15 +80,30 @@ export class Stage extends View
 
 		if(_window)
 		{
-			let _document = _window.document;
-
 			_window.addEventListener('resize', this.resizeListener);
 
 			this.cleanup.push(()=>{
 				_window.removeEventListener('resize', this.resizeListener);				
 			});
 
-			this.args.rootEntity.render(_document.querySelector('body'));
+			let _document = _window.document;
+
+			let _html   = _document.querySelector('html');
+			let _body   = _document.querySelector('body');
+			let subDoc  = _html.parentNode;
+
+			_html.parentNode.removeChild(_html);
+
+			this.args.rootEntity.render(subDoc);
+
+			this.args.styles.bindTo((v,k) => {
+				console.log(k,v);
+				if(!this.args.rootEntity)
+				{
+					return;
+				}
+				this.args.rootEntity.args.styles[k] = v;
+			});
 
 			this._attached = true;
 		}
