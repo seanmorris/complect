@@ -193,7 +193,7 @@ export class Styler extends View
 			}
 
 			this.args.states = this.args.focus.activeStates();
-			this.args.status = this.args.states.map(x=>`+${x}`).join(' ');
+			this.args.status = this.args.states.map(x=>`🗹 ${x}`).join(' ');
 
 			if(!this.args.status)
 			{

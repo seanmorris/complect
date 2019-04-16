@@ -48,9 +48,9 @@ export class Stage extends View
 		this.root.args.bindTo('zoom', (v) => {
 			this.args.zoom = v;
 
-			console.log(this.args.zoomHeight);
+			let zoom = 1*v || 100;
 
-			this.args.stageHeight = this.args.zoomHeight * (100/v);
+			this.args.stageHeight = this.args.zoomHeight * (100/zoom);
 		});
 	}
 

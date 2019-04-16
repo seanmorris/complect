@@ -30,6 +30,10 @@
 	font-family: 'anonymous pro', monospace;
 }
 
+.triptych .column .entry {
+	position: relative;
+}
+
 .triptych .column .entry-titlebar,
 .triptych .column .entry label > span:not(:empty),
 .triptych .column .entry p,
@@ -39,6 +43,41 @@
 .triptych .column .entry input {
 	padding:   0.5em;
 	font-family: 'anonymous pro', monospace;
+}
+
+.triptych .column .entry fieldset:first-child {
+	padding-top: 0px;
+}
+
+.triptych .column .entry fieldset:last-child {
+	padding-bottom: 0px;
+}
+
+.triptych .column .entry form > label:last-child:not([data-type="select"]) {
+	margin-bottom: 0.5em;
+}
+
+.triptych .column .entry select option {
+	padding-top: 0.25em;
+	padding-bottom: 0.25em;
+}
+
+.triptych .column .entry fieldset,
+.triptych .column .entry select,
+.triptych .column .entry input:not([type]),
+.triptych .column .entry input[type="text"] {
+	border-style: inset;
+}
+
+.triptych .column .entry input[type="button"] {
+	font-weight: 700;
+}
+
+.triptych .column .entry input[type="text"] {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
 }
 
 .triptych .column .entry-content select {
@@ -140,8 +179,8 @@
 	box-sizing: content-box;
 }
 
-.triptych .column .entry label:not(:first-child):not(:last-child),
-.triptych .column .entry fieldset {
+.triptych .column .entry form > label:not(:first-child):not(:last-child),
+.triptych .column .entry form > fieldset {
 	margin-top: 0.33em;
 	margin-bottom: 0.33em;
 }

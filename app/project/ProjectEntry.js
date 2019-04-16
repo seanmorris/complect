@@ -28,7 +28,9 @@ export class ProjectEntry extends View
 				"type": 'text',
 				"name": 'project-name',
 				"id":   'project-name',
-				"placeholder": 'untitled'
+
+				"placeholder": 'untitled',
+				'tab-index':    0,
 			}
 		};
 
@@ -41,7 +43,7 @@ export class ProjectEntry extends View
 			"attrs": {
 				"type": 'fieldset',
 				"name": 'buttons',
-				"id":   'project-buttons'
+				"id":   'project-buttons',
 			}
 		};
 
@@ -55,6 +57,8 @@ export class ProjectEntry extends View
 				"name": 'save',
 				"id":   'save',
 				"cv-on": 'click:click(event)',
+
+				'tab-index': 0,
 			}
 		};
 
@@ -66,8 +70,23 @@ export class ProjectEntry extends View
 			"attrs": {
 				"type": 'button',
 				"name": 'load',
-				"id":   'load',
+				"id":   'project-load',
 				"cv-on": 'click:click(event)',
+				'tab-index': 0,
+			}
+		};
+
+		formSource.buttons.children.build =  {
+			"name":  'build',
+			"title": '🗀 build',
+			"type":  'button',
+			"value": '',
+			"attrs": {
+				"type": 'button',
+				"name": 'build',
+				"id":   'project-build',
+				// "cv-on": 'click:click(event)',
+				// 'tab-index': 0,
 			}
 		};
 

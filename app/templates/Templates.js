@@ -68,7 +68,7 @@ export class Templates extends View
 			"type":  'text',
 			"value": this.currentTemplate ? this.currentTemplate.name : null,
 			"attrs":  {
-				"type":        'select',
+				"type":        'text',
 				"name":        'children',
 				"id":          'templates-current',
 				"placeholder": 'untitled',

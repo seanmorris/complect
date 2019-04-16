@@ -9,7 +9,7 @@ export class Components extends View
 	{
 		super(args);
 		this.template   = require('./components.tmp');
-		this.toolbar    = new Toolbar({main: this});
+		// this.toolbar    = new Toolbar({main: this});
 		this.prevBind   = null;
 
 		this.components = [];
