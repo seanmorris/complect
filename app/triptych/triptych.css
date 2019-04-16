@@ -58,7 +58,8 @@
 }
 
 .triptych .column .entry select option {
-	padding-top: 0.25em;
+	padding:        0.5em;
+	padding-top:    0.25em;
 	padding-bottom: 0.25em;
 }
 
@@ -111,7 +112,7 @@
 }
 
 .triptych .column.expanded {
-	width: 17em;
+	width: 18em;
 }
 
 .triptych .column .entry {
@@ -128,9 +129,22 @@
 	color:            #FFF;
 }
 
+.triptych .column .entry > .entry-toolbar,
+.triptych .column .entry > .entry-toolbar span{
+	display: flex;
+	flex: 1;
+	justify-content: flex-end;
+}
+
 .triptych .column .entry > .entry-toolbar {
 	background-color: #999;
 }
+
+.triptych .column .entry > .entry-toolbar input,
+.triptych .column .entry > .entry-toolbar select {
+	flex: 1;
+}
+
 .triptych .column .entry.collapsed > .entry-toolbar,
 .triptych .column.expanded .entry.collapsed > .entry-content {
 	display: none;

@@ -17,9 +17,12 @@ export class Project
 		this.stage      = null;
 
 		this.state = {
-			components:  {}
-			, templates: {}
+			components:    {}
+			, templates:   {}
+			, breakpoints: {}
 		};
+
+		this.currentBreakpoint = null;
 
 		this._currentTemplate = null;
 

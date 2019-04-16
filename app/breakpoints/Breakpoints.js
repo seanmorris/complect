@@ -22,8 +22,8 @@ export class Breakpoints extends View
 		});
 
 		this.args.breakpoints['all'] = {
-			min:null
-			, max:null
+			min:   null
+			, max: null
 		};
 
 		this.args.form = null;
@@ -31,14 +31,12 @@ export class Breakpoints extends View
 
 		this.prevBind = false;
 
-		this.args.bindTo('focus', (v,k,t) => {
-			if(!v)
-			{
-				return;
-			}
-
-			
-		});
+		// this.args.bindTo('focus', (v,k,t) => {
+		// 	if(!v)
+		// 	{
+		// 		return;
+		// 	}
+		// });
 
 		this.buildListForm();
 		this.buildForm();
@@ -69,7 +67,7 @@ export class Breakpoints extends View
 		let form = new Form(formSource);
 
 		form.fields.breakpoint.change = (event) => {
-			console.log(event.target.value);
+			this.args.project.currentBreakpoint = this.args.breakpoints[event.target.value];
 		};
 
 		this.args.listForm = form;
@@ -170,7 +168,9 @@ export class Breakpoints extends View
 
 			if(!this.args.breakpoints[ name ])
 			{
-				this.args.breakpoints[ name ] = {};
+				this.args.breakpoints[ name ] = {
+					min, max
+				};
 			}
 			else if(this.args.listForm)
 			{

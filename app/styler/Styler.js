@@ -10,7 +10,6 @@ export class Styler extends View
 		super(args);
 
 		this.stage    = null;
-		this.project  = null;
 		this.template = require('./styler.tmp');
 		this.toolbar  = new Toolbar({main: this});
 
@@ -20,6 +19,9 @@ export class Styler extends View
 		this.args.stage  = null;
 		this.args.status = 'all states';
 		this.args.search = null;
+
+		this.args.breakpoint = null;
+
 		this.prevDebind  = null;
 
 		this.args.bindTo('filter', (v, k) => {
@@ -182,6 +184,15 @@ export class Styler extends View
 			this.prevDebind();
 		}
 
+		let breakpointtDebind = this.args.project.bindTo('currentBreakpoint', (v) => {
+			if(!v || (!v.min && !v.max))
+			{
+				this.args.breakpoint = false;
+				return;
+			}
+			this.args.breakpoint = `${v.min}px - ${v.max}px`;
+		});
+
 		let styleDebind = this.args.form.value.bindTo((v,k) => {
 			this.args.styles[k] = v;
 		});
@@ -203,6 +214,7 @@ export class Styler extends View
 		}, {wait: 0});
 
 		this.prevDebind = () => {
+			breakpointtDebind();
 			stateDebind();
 			styleDebind();
 		};

@@ -78,7 +78,7 @@ export class ProjectEntry extends View
 
 		formSource.buttons.children.build =  {
 			"name":  'build',
-			"title": '🗀 build',
+			"title": '☰ build',
 			"type":  'button',
 			"value": '',
 			"attrs": {
