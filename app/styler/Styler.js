@@ -9,14 +9,14 @@ export class Styler extends View
 	{
 		super(args);
 
-		this.stage    = null;
 		this.template = require('./styler.tmp');
 		this.toolbar  = new Toolbar({main: this});
 
 		this.args.styles = {};
 		this.args.states = [];
+		this.args.form   = null;
 		this.args.focus  = null;
-		this.args.stage  = null;
+		this.args.filter = 'basic';
 		this.args.status = 'all states';
 		this.args.search = null;
 
@@ -187,10 +187,10 @@ export class Styler extends View
 		let breakpointtDebind = this.args.project.bindTo('currentBreakpoint', (v) => {
 			if(!v || (!v.min && !v.max))
 			{
-				this.args.breakpoint = false;
+				this.args.breakpoint = null;
 				return;
 			}
-			this.args.breakpoint = `${v.min}px - ${v.max}px`;
+			this.args.breakpoint = `, ${v.min}px - ${v.max}px`;
 		});
 
 		let styleDebind = this.args.form.value.bindTo((v,k) => {

@@ -130,10 +130,12 @@ export class Triptych extends View
 
 	focus(entity)
 	{
-		let right  = this.args.right;
+		let right = this.args.right;
 
 		for(let i in right.args.entries)
 		{
+			console.log(i);
+
 			if(!right.args.entries[i].args.content)
 			{
 				continue;

@@ -45,6 +45,10 @@
 	font-family: 'anonymous pro', monospace;
 }
 
+.triptych .column .entry select {
+	padding: 0px;
+}
+
 .triptych .column .entry fieldset:first-child {
 	padding-top: 0px;
 }
@@ -200,7 +204,6 @@
 }
 
 .triptych .column .entry input,
-.triptych .column .entry select,
 .triptych .column .entry button {
 	padding:   0.333em;
 	/*font-size: 0.8em;*/

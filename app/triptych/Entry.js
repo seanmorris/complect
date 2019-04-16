@@ -17,10 +17,10 @@ export class Entry extends View
 		this.args.bindTo('expanded', (v, k) => {
 			if(v === 'expanded')
 			{
-				this.args.toggle = 'x';
+				this.args.toggle = '✖';
 				return;
 			}
-			this.args.toggle = '+';
+			this.args.toggle = '✱';
 		});
 	}
 

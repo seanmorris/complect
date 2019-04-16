@@ -25,8 +25,6 @@ export class Stator extends View
 			}
 
 			this.buildForm(v);
-
-
 		});
 	}
 

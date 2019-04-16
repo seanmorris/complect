@@ -31,13 +31,6 @@ export class Breakpoints extends View
 
 		this.prevBind = false;
 
-		// this.args.bindTo('focus', (v,k,t) => {
-		// 	if(!v)
-		// 	{
-		// 		return;
-		// 	}
-		// });
-
 		this.buildListForm();
 		this.buildForm();
 	}
