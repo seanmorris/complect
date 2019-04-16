@@ -1,5 +1,5 @@
 .stage {
-	display:        flex;
+	position:       relative;
 	flex-direction: column;
 	flex:           1;
 
@@ -13,9 +13,19 @@
 	user-select:    none;
 
 	overflow:       hidden;
+	/*width:          100%;*/
 }
 
 .stage iframe {
-	flex: 1;
+	position: absolute;
+	top:      0px;
+	left:     0px;
+	width:    calc(calc(100 / var(--complect-zoom-level)) * 100%);
+	height:   calc(var(--complect-stage-height) * 1px);
+
+
 	border: none;
+	transform-origin: 0px 0px;
+
+	transform: scale(calc(var(--complect-zoom-level) / 100));
 }

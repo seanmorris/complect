@@ -11,6 +11,9 @@ export class ProjectColumn extends Column
 	{
 		super(args);
 
+		this.args.icon  = '/favicon.ico';
+		this.args.title = 'complect 0.011';
+
 		this.mainEntry.args.expanded = 'expanded';
 		this.content       = {
 			'Project':      new ProjectEntry

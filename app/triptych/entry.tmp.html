@@ -1,7 +1,10 @@
 <div class = "entry [[expanded]]">
 	<div class = "entry-titlebar" cv-on = "click:click(event)">
-		<div class = "entry-title">[[title]]</div>
-		<div class = "entry-toggle">[[icon]]</div>
+		<div class = "entry-title">
+			<span cv-if = "icon"><img cv-attr = "src:icon" /></span>
+			<div>[[title]]</div>
+		</div>
+		<div class = "entry-toggle">[[toggle]]</div>
 	</div>
 	<div class = "entry-toolbar">[[toolbar]]</div>
 	<div class = "entry-content">[[content]]</div>

@@ -13,6 +13,8 @@ export class ObjectColumn extends Column
 	{
 		super(args);
 
+		this.args.title = 'Object';
+
 		this.mainEntry.args.expanded = 'expanded';
 		this.content       = {
 			'Properties':    new Properties

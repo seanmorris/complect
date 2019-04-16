@@ -28,6 +28,10 @@ export class Column extends View
 		this.args.bindTo('title', (v) => {
 			this.mainEntry.args.title = v;
 		});
+
+		this.args.bindTo('icon', (v) => {
+			this.mainEntry.args.icon = v;
+		});
 	}
 
 	postRender()

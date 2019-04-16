@@ -107,6 +107,15 @@
 
 .triptych .column.expanded .entry-title {
 	flex: 1;
+	display:     flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.triptych .column.expanded .entry-title img {
+	width: 24px;
+	image-rendering: pixelated;
+	margin-right: 0.5em;
 }
 
 .triptych .column.expanded .entry-content {

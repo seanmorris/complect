@@ -11,7 +11,10 @@ export class Stage extends View
 		this.template        = require('./stage.tmp');
 		this.focused         = null;
 
-		this.args.styles     = {};
+		this.args.styles      = {};
+		this.args.zoom        = 100;
+		this.args.stageHeight = 100;
+		this.args.zoomHeight  = 100;
 
 		this.args.bindTo('rootEntity', (v) => {
 			if(!v)
@@ -25,9 +28,30 @@ export class Stage extends View
 		this._attached = false;
 
 		this.resizeListener = (event) =>{
-			let _window = event.target;
-			console.log(_window.innerWidth, _window.innerHeight);
+			// console.log(this.stageRoot);
+			let zoomRatio = 100 / this.args.zoom;
+
+			this.args.zoomHeight = this.stageRoot.clientHeight;
+
+			this.args.stageHeight = this.args.zoomHeight * zoomRatio;
+		};
+
+		this.stageResizeListener = (event) =>{
+			let _window   = event.target;
+			
+			this.root.args.resolution = `${_window.innerWidth} ⨉ ${_window.innerHeight}`;
 		}
+	}
+
+	postRender()
+	{
+		this.root.args.bindTo('zoom', (v) => {
+			this.args.zoom = v;
+
+			console.log(this.args.zoomHeight);
+
+			this.args.stageHeight = this.args.zoomHeight * (100/v);
+		});
 	}
 
 	getTemplate()
@@ -76,14 +100,27 @@ export class Stage extends View
 			return;
 		}
 
+		this.stageRoot = this.findTag(`[stage-root]`);
+
+		this.args.stageHeight = this.stageRoot.clientHeight;
+		this.args.zoomHeight  = this.stageRoot.clientHeight;
+
+		window.addEventListener('resize', this.resizeListener);
+
+		this.cleanup.push(()=>{
+			window.removeEventListener('resize', this.resizeListener);
+		});
+
 		let _window = this.getWindow();
 
 		if(_window)
 		{
-			_window.addEventListener('resize', this.resizeListener);
+			_window.addEventListener('resize', this.stageResizeListener);
+
+			this.root.args.resolution = `${_window.innerWidth} ⨉ ${_window.innerHeight}`;
 
 			this.cleanup.push(()=>{
-				_window.removeEventListener('resize', this.resizeListener);				
+				_window.removeEventListener('resize', this.stageResizeListener);
 			});
 
 			let _document = _window.document;

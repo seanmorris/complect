@@ -11,6 +11,18 @@ export class RootView extends View
 		this.template  = require('./rootView.tmp');
 		this.args.body = new Triptych;
 		this.args.pak  = new Pak;
+
+		this.args.zoom       = '100';
+		this.args.customZoom = false;
+		this.args.resolution = 'ERROR!';
+
+		this.args.zooms      = [10,25,50,75,90,100,110,125,150,200,250,''];
+
+		this.args.body.root = this;
+
+		this.args.bindTo('zoom', (v) => {
+			// this.args.customZoom = (v === '') || this.args.customZoom;
+		});
 	}
 
 	export(event)

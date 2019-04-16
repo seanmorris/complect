@@ -47,7 +47,7 @@ export class ProjectEntry extends View
 
 		formSource.buttons.children.save =  {
 			"name":  'save',
-			"title": 'save',
+			"title": '🖫 save',
 			"type":  'button',
 			"value": '',
 			"attrs": {
@@ -60,7 +60,7 @@ export class ProjectEntry extends View
 
 		formSource.buttons.children.load =  {
 			"name":  'load',
-			"title": 'load',
+			"title": '🗀 load',
 			"type":  'button',
 			"value": '',
 			"attrs": {
@@ -105,19 +105,19 @@ export class ProjectEntry extends View
 
 	saveProject()
 	{
+		let projectSource = JSON.stringify(
+			this.args.project.export()
+			, null
+			, 4
+		);
+
 		let link      = document.createElement('a');
 
 		link.download = `${this.args.project.name || 'untitled-complect-project'}.cpj`;
 		link.target   = '_blank';
 		link.href     = `data:application/json;charset=utf-8,${
-			encodeURIComponent(JSON.stringify(
-				this.args.project.export()
-				, null
-				, 4
-			))
+			encodeURIComponent(projectSource)
 		}`;
-
-		console.log(link);
 
 		link.click();
 	}

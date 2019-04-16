@@ -6,6 +6,24 @@
 	<div class = "body">[[body]]</div>
 
 	<div class = "footer">
-		|[[resolution]]|
+		<div class = "left">
+			<div class = "field">
+				<p>Last saved 15 minutes ago</p>
+			</div>
+			<div class = "field">
+				<p>No changes since 00:00:00 1/1/2000.</p>
+			</div>
+		</div>
+		<div class = "right">
+			<div class = "field">
+				<p cv-bind = "resolution"></p>
+			</div>
+			<div class = "field">
+				<span cv-if = "customZoom"><input cv-bind = "zoom" /></span>
+				<select cv-bind = "zoom" cv-each = "zooms:percent:p">
+					<option value = "[[percent]]">[[percent]]%</option>
+				</select>
+			</div>
+		</div>
 	</div>
 </div>

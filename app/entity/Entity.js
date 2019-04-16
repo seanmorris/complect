@@ -157,29 +157,6 @@ export class Entity extends View
 		return this.findTag(`#_${this.args._id}`);
 	}
 
-	findTag(selector)
-	{
-		for(let i in this.nodes)
-		{
-			let result;
-
-			if(!this.nodes[i].querySelector)
-			{
-				continue;
-			}
-
-			if(this.nodes[i].matches(selector))
-			{
-				return this.nodes[i];
-			}
-
-			if(result = this.nodes[i].querySelector(selector))
-			{
-				return result;
-			}
-		}
-	}
-
 	stageAttached(stage, event)
 	{
 		let stageWindow   = stage.getWindow();

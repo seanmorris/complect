@@ -38,9 +38,49 @@ body {
 	
 }
 
-.complect > .footer{
+.complect > .footer {
+	margin-top: 1em;
 	background: #CCC;
-	border: 1px ouset black;
+	border-top: 1px solid #000;
+	display: flex;
+	justify-content: space-between;
+}
+
+.complect > .footer > .left,
+.complect > .footer > .right {
+	display: flex;
+}
+
+.complect > .footer .field {
+	border:           1px inset #888;	
+	background-color: #DDD;
+
+	font-family:      'courier new';
+	font-family:      'anonymous pro', monospace;
+
+	padding:          0px;
+}
+
+.complect > .footer .field input,
+.complect > .footer .field select,
+.complect > .footer .field > p {
+	padding:          0.25em;
+	padding-left:     0.75em;
+	padding-right:    0.75em;
+}
+
+.complect > .footer .field select {
+	height: 100%;
+	border: none;
+}
+
+.complect > .footer > .left .field:not(:last-child),
+.complect > .footer > .right .field:not(:last-child) {
+	margin-right: 1em;
+}
+
+.complect > .footer {
+
 }
 
 
