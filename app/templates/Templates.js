@@ -35,8 +35,6 @@ export class Templates extends View
 				this.args.form.fields.current.args.value = vv.name;
 			});
 
-			// console.log(Object.keys(v.templates), v);
-
 			let templatesDebind = v.templates.bindTo((vv,kk,tt) => {
 				if(!vv)
 				{
@@ -134,7 +132,7 @@ export class Templates extends View
 
 				let template = project.templates[id];
 
-				templates[template.name] = template.name;
+				templates[template.name] = template.uuid;
 			}
 		}
 

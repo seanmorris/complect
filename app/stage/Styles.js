@@ -6,7 +6,5 @@ export class Styles extends View
 	{
 		super(args);
 		this.template = require('./styles.tmp');
-
-		this.args.templateId = 'lol';
 	}
 }

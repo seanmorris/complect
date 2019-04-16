@@ -19,13 +19,3 @@
 	flex: 1;
 	border: none;
 }
-
-[data-metastate~="hover"] {
-	outline: 4px solid rgba(0,0,0,0.3);
-}
-
-
-[data-metastate~="click"] {
-	outline: 4px solid rgba(0,0,0,1);
-	outline-offset: -2px
-}

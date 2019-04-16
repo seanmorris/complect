@@ -7,7 +7,7 @@ export class Label extends Entity
 		super(args,stage);
 		this.args.content = 'style me.'
 
-		this.type     = 'label';
+		this.args.type = 'label';
 		this.template = require('./label.tmp');
 
 
@@ -25,5 +25,17 @@ export class Label extends Entity
 		};
 
 		return _export;
+	}
+
+	static import(skeleton, project)
+	{
+		let entity = super.import(skeleton, project);
+
+		if(skeleton.properties)
+		{
+			entity.content = skeleton.properties.content;
+		}
+
+		return entity;
 	}
 }

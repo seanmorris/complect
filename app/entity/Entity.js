@@ -3,23 +3,27 @@ import { View } from 'curvature/base/View';
 
 import { Styles } from '../stage/Styles';
 
+import uuid from 'uuid';
+
 export class Entity extends View
 {
 	constructor(args,stage)
 	{
-		// console.trace();
 		super(args);
-		this.type           = 'entity';
+		this.args.type      = 'entity';
 		this.preserve       = true;
 		this.stage          = stage;
 
 		this.template       = require('./entity.tmp');
-		this.args.name      = this.args.name   || '_' + this.args._id;
+
+		this.args.uuid      = this.args.uuid || uuid();
+		this.args.name      = this.args.name || '_' + this.args.uuid;
+
 		this.args.styles    = this.args.styles || {};
 
 		this.styleView      = new Styles;
 
-		this.styleView.args.templateId = this.args._id;
+		this.styleView.args.templateId = this.args.uuid;
 
 		this.args._children = [];
 		this.args.children  = new Bag((item, meta, change)=>{
@@ -28,7 +32,9 @@ export class Entity extends View
 				return;
 			}
 
-			this.args._children = this.args.children.items();
+			this.args._children.length = 0;
+
+			Object.assign(this.args._children, this.args.children.items());
 
 			if(change > 0)
 			{
@@ -56,7 +62,7 @@ export class Entity extends View
 
 			this.args._styles              = this.compileStyles();
 			this.styleView.args.content    = this.args._styles;
-			this.styleView.args.templateId = this.args._id;
+			this.styleView.args.templateId = this.args.uuid;
 		},{wait:0});
 
 		this.args.states.bindTo((v,k) => {
@@ -73,18 +79,6 @@ export class Entity extends View
 		this.args.metaStates.bindTo((v,k,t)=>{
 			this.args._metaStates = Object.keys(t).filter(kk=>t[kk]).join(' ');
 		}, {wait: 0});
-	}
-
-	postRender()
-	{
-		let stageWindow   = this.stage.getWindow();
-		let stageDocument = stageWindow.document
-		let head          = stageDocument.querySelector('head');
-
-		if(head)
-		{
-			this.styleView.render(head);
-		}
 	}
 
 	addStyle(rule, value, states = [])
@@ -141,7 +135,7 @@ export class Entity extends View
 	// {
 	// 	let styles = {};
 
-	// 	styles[this.args._id] = this.compileStyles();
+	// 	styles[this.args.uuid] = this.compileStyles();
 
 	// 	for(let i in this.args.children)
 	// 	{
@@ -160,7 +154,7 @@ export class Entity extends View
 
 	rootTag()
 	{
-		return this.findTag(`#_${this._id}`);
+		return this.findTag(`#_${this.args._id}`);
 	}
 
 	findTag(selector)
@@ -186,6 +180,35 @@ export class Entity extends View
 		}
 	}
 
+	stageAttached(stage, event)
+	{
+		let stageWindow   = stage.getWindow();
+		let stageDocument = stageWindow.document
+		let head          = stageDocument.querySelector('head');
+
+		if(head)
+		{
+			this.styleView.render(head);
+		}
+
+		for(let i in this.args._children)
+		{
+			this.args._children[i].stageAttached(stage, event);
+		}
+	}
+
+	remove()
+	{
+		let children = this.args.children.items();
+
+		for(let i in children)
+		{
+			children[i].remove();
+		}
+
+		super.remove();
+	}
+
 	hover(event)
 	{
 		this.args.metaStates['hover'] = true;
@@ -196,9 +219,9 @@ export class Entity extends View
 		this.args.metaStates['hover'] = false;
 	}
 
-	click(event, _id)
+	click(event, uuid)
 	{
-		if(_id !== this.args._id)
+		if(uuid !== this.args.uuid)
 		{
 			return;
 		}
@@ -219,11 +242,6 @@ export class Entity extends View
 		this.args.metaStates['click'] = false;
 	}
 
-	import()
-	{
-
-	}
-
 	export()
 	{
 		let styles = {};
@@ -239,15 +257,52 @@ export class Entity extends View
 			}
 		}
 
-		// console.log( JSON.stringify(this.args._children.map(c=>c.export())) );
+		// console.log(this.args.children.items());
 
 		return {
-			type:       this.type
-			, id:       this.args._id
+			type:       this.args.type
+			, uuid:     this.args.uuid
 			, name:     this.args.name
 			, styles:   styles
 			, states:   this.args.states
-			, children: this.args._children.map(c=>c.args.name)
+			, children: this.args._children.map(c=>c.args.uuid)
 		};
+	}
+
+	static import(skeleton, project)
+	{
+		let entity = new this({
+
+			uuid:   skeleton.uuid
+			, name: skeleton.name
+
+		}, project.stage);
+
+		entity.stage = project.stage;
+
+		if(skeleton.styles)
+		{
+			for(let selector in skeleton.styles)
+			{
+				for(let property in skeleton.styles[selector])
+				{
+					let style = skeleton.styles[selector][property];
+
+					entity.addStyle(property, style, []);
+				}
+			}
+		}
+
+		if(skeleton.children)
+		{
+			skeleton.children.map(childId => {
+				let component = project.getComponent(childId);
+
+				entity.args.children.add(component)
+			});
+		}
+
+
+		return entity;
 	}
 }

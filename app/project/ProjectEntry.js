@@ -54,7 +54,6 @@ export class ProjectEntry extends View
 				"type": 'button',
 				"name": 'save',
 				"id":   'save',
-
 				"cv-on": 'click:click(event)',
 			}
 		};
@@ -67,16 +66,22 @@ export class ProjectEntry extends View
 			"attrs": {
 				"type": 'button',
 				"name": 'load',
-				"id":   'load'
+				"id":   'load',
+				"cv-on": 'click:click(event)',
 			}
 		};
 
 		this.args.form = new Form(formSource);
 
 		this.args.form.fields.buttons.fields.save.click = ()=>{
-			console.log(JSON.stringify(
-				this.args.project.export()
-			, null,4));
+			
+			this.saveProject();
+			
+		};
+
+		this.args.form.fields.buttons.fields.load.click = ()=>{
+			
+			this.openProject();
 			
 		};
 
@@ -96,5 +101,56 @@ export class ProjectEntry extends View
 				this.args.project.name = v;
 			}
 		});
+	}
+
+	saveProject()
+	{
+		let link      = document.createElement('a');
+
+		link.download = `${this.args.project.name || 'untitled-complect-project'}.cpj`;
+		link.target   = '_blank';
+		link.href     = `data:application/json;charset=utf-8,${
+			encodeURIComponent(JSON.stringify(
+				this.args.project.export()
+				, null
+				, 4
+			))
+		}`;
+
+		console.log(link);
+
+		link.click();
+	}
+
+	openProject()
+	{
+		let input = document.createElement('input');
+
+		let opened = (event) => {
+			input.removeEventListener('change', opened);
+
+			let reader = new FileReader();
+			
+			let readFile = (event) => {
+				reader.removeEventListener('load', readFile);
+
+				let source   = reader.result;
+				let skeleton = JSON.parse(source);
+
+				console.log(skeleton);
+			};
+
+			reader.addEventListener('load', readFile);
+			
+			reader.readAsText(input.files[0]);
+		};
+
+		input.addEventListener('change', opened);
+
+		input.setAttribute('type',   'file');
+		input.setAttribute('accept', '.cpj');
+		input.click();
+
+		console.log(input);
 	}
 }

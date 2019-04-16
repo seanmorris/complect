@@ -20,6 +20,8 @@ export class Properties extends View
 				return;
 			}
 
+			this.args.tagName = v.rootTag().tagName;
+
 			let formSource = {"_method": "get"};
 
 			formSource.name =  {

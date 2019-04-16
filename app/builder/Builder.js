@@ -99,7 +99,7 @@ export class Builder extends View
 		this.children = entity.args.children.items()
 
 		this.args._children = this.children.map((child)=>{
-			return child.args.name ||'_' + child.args._id;
+			return child.args.name;
 		});
 
 		// let field = this.args.form.fields.children;

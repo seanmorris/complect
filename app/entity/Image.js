@@ -7,7 +7,7 @@ export class Image extends Entity
 		super(args,stage);
 		this.args.src = '';
 
-		this.type     = 'image';
+		this.args.type = 'image';
 		this.template = require('./image.tmp');
 
 
@@ -25,5 +25,17 @@ export class Image extends Entity
 		};
 
 		return _export;
+	}
+
+	static import(skeleton, project)
+	{
+		let entity = super.import(skeleton, project);
+
+		if(skeleton.properties)
+		{
+			entity.src = skeleton.properties.src;
+		}
+
+		return entity;
 	}
 }

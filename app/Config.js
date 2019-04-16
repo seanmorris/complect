@@ -1,6 +1,9 @@
+// import { StageDocument } from 'entity/StageDocument';
+
 export class Config{};
 
 Config.title = 'Complect';
+
 Config.styleFilters = {};
 Config.styleFilters.basic = {
 	display:      null

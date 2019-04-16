@@ -6,17 +6,19 @@ export class StageDocument extends Entity
 	{
 		super(args,stage);
 
+		this.args.type = 'document';
+		this.template = '';
 		this.document = (new DOMParser()).parseFromString(
 			require('./stageDocument.tmp')
 			, 'text/html'
 		);
+
+		this.args.editorStyles = '';
 	}
 
 	postRender()
 	{
 		let head = this.findTag('head');
-
-		console.log(head);
 
 		if(head)
 		{

@@ -105,6 +105,8 @@ export class Stage extends View
 				this.args.rootEntity.args.styles[k] = v;
 			});
 
+			this.args.rootEntity.stageAttached(this, event);
+
 			this._attached = true;
 		}
 

@@ -58,12 +58,6 @@ export class Triptych extends View
 				return;
 			}
 
-			// console.log(JSON.stringify(
-			// 	stage.args.rootEntity.export()
-			// 	, null
-			// 	, 4
-			// ));
-
 			this.stage = new Stage({
 				rootEntity: null
 				, triptych: this
@@ -136,7 +130,7 @@ export class Triptych extends View
 
 		let template = project.addTemplate();
 
-		project.currentTemplate(template.name);
+		project.currentTemplate(template.uuid);
 	}
 
 	focus(entity)

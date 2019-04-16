@@ -1,6 +1,10 @@
 <!DOCTYPE HTML>
 <html>
-	<head></head>
+	<head>
+		<style type = "text/css">
+			[[editorStyles]]
+		</style>
+	</head>
 	<body
 		id             = "_[[_id]]"
 		class          = "[[name]]"
@@ -10,7 +14,7 @@
 		cv-on          = "
 			mouseenter:hover(event);
 			mouseleave:unhover(event);
-			click:click(event, _id);
+			click:click(event, uuid);
 		"
 	>[[child]]</body>
 </html>
