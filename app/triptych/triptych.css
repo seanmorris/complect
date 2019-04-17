@@ -63,8 +63,6 @@
 
 .triptych .column .entry select option {
 	padding:        0.5em;
-	padding-top:    0.25em;
-	padding-bottom: 0.25em;
 }
 
 .triptych .column .entry fieldset,
@@ -110,8 +108,7 @@
 	text-align:  center;
 }
 
-.triptych .column.collapsed,
-.triptych .entry-toggle {
+.triptych .column.collapsed {
 	width: 2em;
 }
 

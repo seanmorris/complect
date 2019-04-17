@@ -4,17 +4,19 @@ import { Template } from './Template';
 import Entity  from '../entity/Entity';
 import EntityTypes  from '../entity/EntityTypes';
 
+// import Template  from './Template';
+
 export class Project
 {
-	constructor()
+	constructor(skeleton = {}, stage)
 	{
 		let bindable = Bindable.makeBindable(this);
 
-		this.name       = '';
+		this.name       = skeleton.name || '';
 		this.templates  = Bindable.makeBindable({});
 		this.components = Bindable.makeBindable({});
 		this.styles     = Bindable.makeBindable({});
-		this.stage      = null;
+		this.stage      = stage || null;
 
 		this.state = {
 			components:    {}
@@ -30,18 +32,37 @@ export class Project
 			// console.log(v);
 		});
 
+		if(skeleton.components)
+		{
+			this.state.components = skeleton.components;
+
+			for(let i in skeleton.components)
+			{
+				let subSkeleton = skeleton.components[i];
+
+				subSkeleton.project = this;
+
+				let entity = this.getComponent(i);
+
+				// console.log(subSkeleton, entity);
+			}
+		}
+
+		if(skeleton.templates)
+		{
+			this.state.templates = skeleton.components;
+
+			for(let i in skeleton.templates)
+			{
+				let subSkeleton = skeleton.templates[i];
+
+				subSkeleton.project = this;
+
+				this.addTemplate(subSkeleton);
+			}
+		}
+
 		return bindable;
-	}
-
-	addTemplate()
-	{
-		let template = new Template({project:this}, this.stage);
-
-		template.project = this;
-
-		this.templates[ template.uuid ] = template;
-
-		return template;
 	}
 
 	addComponent(entity)
@@ -68,11 +89,65 @@ export class Project
 		this.linkComponent(entity);
 	}
 
+	getComponent(id)
+	{
+		if(!this.state.components[ id ])
+		{
+			throw new Error(`Component "${id}" does not exist!`);
+		}
+
+		let skeleton    = this.state.components[ id ];
+		let entityClass = Entity;
+
+		if(EntityTypes[skeleton.type])
+		{
+			entityClass = EntityTypes[skeleton.type];
+		}
+
+		let entity = entityClass.import(skeleton, this);
+
+		this.linkComponent(entity);
+
+		return entity;
+	}
+
+	addTemplate(skeleton = {})
+	{
+		skeleton.project = this;
+
+		let template = new Template(skeleton, this.stage);
+
+		template.project = this;
+
+		this.linkTemplate(template);
+
+		this.templates[ template.uuid ] = template;
+
+		return template;
+	}
+
+	getTemplate(id)
+	{
+		if(!this.state.templates[ id ])
+		{
+			throw new Error(`Template "${id}" does not exist!`);
+		}
+
+		let skeleton = this.state.templates[ id ];
+		let template = Template.import(skeleton, this);
+
+		this.linkTemplate(template);
+
+		return template;
+	}
+
+	
+
 	linkComponent(component)
 	{
 		let uuid = component.args.uuid;
 
-		let scalarDebind = component.args.bindTo((v,k,t,d)=>{
+		let scalarDebind = component.args.bindTo((v,k,t,d) => {
 			if(d)
 			{
 				delete this.state.components[uuid][k];
@@ -153,46 +228,41 @@ export class Project
 		})
 	}
 
-	getComponent(id)
+	linkTemplate(template)
 	{
-		if(!this.components[ id ])
-		{
-			throw new Error(`Component "${id}" does not exist!`);
-		}
+		let uuid = template.uuid;
 
-		let component = this.components[ id ];
+		let scalarDebind = template.bindTo((v,k,t,d) => {
+			if(d)
+			{
+				delete this.state.components[uuid][k];
+				return;
+			}
 
-		let skeleton    = this.state.components[ id ];
-		let entityClass = Entity;
+			if(!v || typeof v === 'object')
+			{
+				return;
+			}
 
-		if(EntityTypes[skeleton.type])
-		{
-			entityClass = EntityTypes[skeleton.type];
-		}
+			if(-1 !== ['name', 'uuid', 'root'].indexOf(k))
+			{
+				if(!this.state.templates[uuid])
+				{
+					this.state.templates[uuid] = {};
+				}
 
-		let entity = entityClass.import(skeleton, this);
-
-		this.linkComponent(entity);
-
-		return entity;
-	}
-
-	getTemplate(id)
-	{
-		if(this.templates[ id ])
-		{
-			return this.templates[ id ];
-		}
-
-		throw new Error(`Template "${id}" does not exist!`);
+				this.state.templates[uuid][k] = v;
+			}
+		});
 	}
 
 	currentTemplate(id)
 	{
 		if(id)
 		{
-			let skeleton = this.getTemplate(id).export();
-			let template = Template.import(skeleton, this);
+			// let skeleton = this.getTemplate(id).export();
+			// let template = Template.import(skeleton, this);
+			let template = this.getTemplate(id);
 
 			if(this._currentTemplate)
 			{
@@ -219,8 +289,10 @@ export class Project
 		return {name,templates,components: this.state.components};
 	}
 
-	static import(skeleton)
+	static import(skeleton, stage)
 	{
-		let project = new this;
+		let project = new this(skeleton, stage);
+
+		return project;
 	}
 }

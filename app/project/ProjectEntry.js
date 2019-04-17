@@ -2,6 +2,7 @@ import { View } from 'curvature/base/View';
 import { Form } from 'curvature/form/Form';
 
 import { Toolbar } from './Toolbar';
+import { Project } from './Project';
 
 export class ProjectEntry extends View
 {
@@ -157,6 +158,11 @@ export class ProjectEntry extends View
 				let skeleton = JSON.parse(source);
 
 				console.log(skeleton);
+
+				let project = Project.import(skeleton, this.stage)
+
+				this.triptych.args.project = project;
+				// console.log(project);
 			};
 
 			reader.addEventListener('load', readFile);
@@ -169,7 +175,5 @@ export class ProjectEntry extends View
 		input.setAttribute('type',   'file');
 		input.setAttribute('accept', '.cpj');
 		input.click();
-
-		console.log(input);
 	}
 }

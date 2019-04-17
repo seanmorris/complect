@@ -16,10 +16,10 @@ export class ObjectColumn extends Column
 
 		this.mainEntry.args.expanded = 'expanded';
 		this.content       = {
-			'Properties':    new Properties
-			, 'Structure':   new Builder
-			, 'States':      new Stator
-			, 'Styles':      new Styler
+			'Structure':    new Builder
+			, 'Properties': new Properties
+			, 'States':     new Stator
+			, 'Styles':     new Styler
 		};
 	}
 }

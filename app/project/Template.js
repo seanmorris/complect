@@ -8,29 +8,30 @@ export class Template
 {
 	constructor(args = {}, stage = null)
 	{
+		let entity;
 		let template = Bindable.makeBindable(this);
 
-		if(args.uuid)
-		{
-			let skeleton = args.project.getTemplate(args.uuid).export();
+		console.trace(args);
 
-			// console.log(skeleton);
-			
-			template.rootEntity = args.project.getComponent(skeleton.root, true);
+		if(args.root)
+		{
+			entity = args.project.getComponent(args.root);
 		}
 		else
 		{
-			template.uuid       = uuid();
-			template.name       = '_' + this.uuid;
-			template.project    = null;
-			template.templates  = {};
-			template.components = {};
-			template.styles     = {};
-
-			template.rootEntity = new StageDocument({}, this.stage);
-
-			args.project.addComponent(template.rootEntity);
+			entity = new StageDocument({}, template.stage);
+			args.project.addComponent(entity);
 		}
+
+		template.rootEntity = entity;
+
+		template.uuid       = args.uuid    || uuid();
+		template.name       = args.name    || '_' + template.uuid;
+		template.root       = entity.args.uuid;
+		template.project    = args.project || null;
+		template.templates  = {};
+		template.components = {};
+		template.styles     = {};
 
 		template.stage = stage;
 
@@ -52,9 +53,15 @@ export class Template
 
 
 			[data-metastate~="click"] {
-				outline: 4px solid rgba(0,0,0,1);
+				outline:        4px solid rgba(0,0,0,1);
 				outline-offset: -2px
 			}
+
+			body {
+				cursor:      crosshair;
+				user-select: none;
+			}
+
 		`;
 		// template.rootEntity = new Body({}, template.stage);
 		// template.rootEntity = new Entity({}, template.stage);
@@ -80,8 +87,10 @@ export class Template
 	static import(skeleton, project)
 	{
 		return new this({
-			uuid: skeleton.uuid
+			uuid:      skeleton.uuid
+			, name:    skeleton.name
+			, root:    skeleton.root
 			, project: project
-		});
+		}, project.stage);
 	}
 }

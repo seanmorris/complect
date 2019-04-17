@@ -16,10 +16,10 @@ export class Entity extends View
 
 		this.template       = require('./entity.tmp');
 
-		this.args.uuid      = this.args.uuid || uuid();
-		this.args.name      = this.args.name || '_' + this.args.uuid;
-
-		this.args.styles    = this.args.styles || {};
+		this.args.uuid      = args.uuid   || uuid();
+		this.args.name      = args.name   || '_' + this.args.uuid;
+		this.args.styles    = {};
+		// this.args.styles    = args.styles || {};
 
 		this.styleView      = new Styles;
 

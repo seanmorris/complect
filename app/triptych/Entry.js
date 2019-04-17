@@ -26,10 +26,7 @@ export class Entry extends View
 
 	click(event)
 	{
-		console.log(this.args.icon);
-		console.log(this.args.title);
-
-		if(this.args.expanded === 'expanded')
+	if(this.args.expanded === 'expanded')
 		{
 			this.args.expanded = 'collapsed';
 			return;
