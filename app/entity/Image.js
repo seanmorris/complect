@@ -10,10 +10,9 @@ export class Image extends Entity
 		this.args.type = 'image';
 		this.template = require('./image.tmp');
 
-
-		this.args.bindTo('src', (v,k)=>{
-			console.log(k,v);
-		});
+		// this.args.bindTo('src', (v,k)=>{
+		// 	console.log(k,v);
+		// });
 	}
 
 	export()

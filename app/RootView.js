@@ -20,9 +20,9 @@ export class RootView extends View
 
 		this.args.body.root = this;
 
-		this.args.bindTo('zoom', (v) => {
-			// this.args.customZoom = (v === '') || this.args.customZoom;
-		});
+		// this.args.bindTo('zoom', (v) => {
+		// 	this.args.customZoom = (v === '') || this.args.customZoom;
+		// });
 	}
 
 	export(event)
@@ -35,7 +35,5 @@ export class RootView extends View
 
 		this.args.pak.template(name, template);
 		this.args.pak.style(name, styles);
-
-		console.log(this.args.pak.export())
 	}
 }

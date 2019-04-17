@@ -22,6 +22,7 @@ export class Builder extends View
 		this.args.bindTo('focus', (v,k,t) => {
 			if(!v)
 			{
+				this.toolbar.args.disabled = 'disabled';
 				this.parent = null;
 				return;
 			}
@@ -82,8 +83,6 @@ export class Builder extends View
 
 	click(event, c)
 	{
-		console.log(c);
-
 		let child = this.children[c];
 
 		if(c === 'parent')

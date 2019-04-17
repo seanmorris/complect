@@ -128,12 +128,6 @@ export class Triptych extends View
 			}
 
 			project.stage = this.stage;
-
-			console.log(Object.keys(project.templates));
-
-			// let template = project.addTemplate();
-
-			// project.currentTemplate(template.uuid);
 		});
 	}
 

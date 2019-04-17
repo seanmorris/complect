@@ -38,8 +38,6 @@ export class Pak
 			element.setAttribute('data-name',  name);
 
 			this.doc.appendChild(element);
-
-			console.log(element);
 		}
 
 		this.sections[name] = document.createRange().createContextualFragment(

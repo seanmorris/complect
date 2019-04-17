@@ -157,12 +157,9 @@ export class ProjectEntry extends View
 				let source   = reader.result;
 				let skeleton = JSON.parse(source);
 
-				console.log(skeleton);
-
 				let project = Project.import(skeleton, this.stage)
 
 				this.triptych.args.project = project;
-				// console.log(project);
 			};
 
 			reader.addEventListener('load', readFile);

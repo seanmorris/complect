@@ -12,7 +12,7 @@ export class Components extends View
 		// this.toolbar    = new Toolbar({main: this});
 		this.prevBind   = null;
 
-		this.components = [];
+		this.components = {};
 
 		this.projectDebind = () => {};
 		
@@ -29,25 +29,24 @@ export class Components extends View
 				{
 					return;
 				}
-
-				// console.log(vv);
 			});
 
-			let componentsDebind = v.components.bindTo((vv,kk,tt) => {
-				// console.log(vv);
+			let componentsDebind = v.state.components.bindTo((vv,kk,tt) => {
 				if(!vv)
 				{
 					return;
 				}
 				
-				this.components[ vv.args.name ] = vv.args.name;
+				this.components[ vv.name ] = vv.uuid;
 
 				this.buildForm();
 			});
 
-			for(let i in v.components)
+			for(let i in v.state.components)
 			{
-				this.components[ i ] = i;
+				let component = v.state.components[i];
+
+				this.components[ component.name ] = component.uuid;
 			}
 
 			this.projectDebind();
@@ -57,6 +56,8 @@ export class Components extends View
 				componentsDebind();
 			};
 		});
+
+		this.buildForm();
 	}
 
 	buildForm()

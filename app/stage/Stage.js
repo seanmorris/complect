@@ -7,9 +7,9 @@ export class Stage extends View
 	{
 		super(args);
 
-		this.args.rootEntity = this.args.rootEntity || null;
-		this.template        = require('./stage.tmp');
-		this.focused         = null;
+		this.args.rootEntity  = this.args.rootEntity || null;
+		this.template         = require('./stage.tmp');
+		this.focused          = null;
 
 		this.args.styles      = {};
 		this.args.zoom        = 100;
@@ -25,32 +25,30 @@ export class Stage extends View
 			v.stage = this;
 		});
 
-		this._attached = false;
-
+		this._attached      = false;
 		this.resizeListener = (event) =>{
-			// console.log(this.stageRoot);
-			let zoomRatio = 100 / this.args.zoom;
 
-			this.args.zoomHeight = this.stageRoot.clientHeight;
-
+			let zoomRatio         = 100 / this.args.zoom;
+			this.args.zoomHeight  = this.stageRoot.clientHeight;
 			this.args.stageHeight = this.args.zoomHeight * zoomRatio;
 		};
 
 		this.stageResizeListener = (event) =>{
-			let _window   = event.target;
-			
+
+			let _window               = event.target;
 			this.root.args.resolution = `${_window.innerWidth} ⨉ ${_window.innerHeight}`;
+
 		}
 	}
 
 	postRender()
 	{
 		this.root.args.bindTo('zoom', (v) => {
-			this.args.zoom = v;
 
-			let zoom = 1*v || 100;
-
+			this.args.zoom        = v;
+			let zoom              = 1*v || 100;
 			this.args.stageHeight = this.args.zoomHeight * (100/zoom);
+
 		});
 	}
 
@@ -134,12 +132,14 @@ export class Stage extends View
 			this.args.rootEntity.render(subDoc);
 
 			this.args.styles.bindTo((v,k) => {
-				console.log(k,v);
+				
 				if(!this.args.rootEntity)
 				{
 					return;
 				}
+
 				this.args.rootEntity.args.styles[k] = v;
+
 			});
 
 			this.args.rootEntity.stageAttached(this, event);

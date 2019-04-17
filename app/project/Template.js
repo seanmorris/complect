@@ -11,8 +11,6 @@ export class Template
 		let entity;
 		let template = Bindable.makeBindable(this);
 
-		console.trace(args);
-
 		if(args.root)
 		{
 			entity = args.project.getComponent(args.root);
@@ -35,17 +33,6 @@ export class Template
 
 		template.stage = stage;
 
-		template.bindTo('name', (v) => {
-			// console.log(v);
-		});
-
-		template.bindTo('project', (v) => {
-			if(!v)
-			{
-				return;
-			}
-		});
-
 		template.rootEntity.args.editorStyles = `
 			[data-metastate~="hover"] {
 				outline: 4px solid rgba(0,0,0,0.3);
@@ -63,8 +50,6 @@ export class Template
 			}
 
 		`;
-		// template.rootEntity = new Body({}, template.stage);
-		// template.rootEntity = new Entity({}, template.stage);
 
 		return template;
 	}
@@ -76,7 +61,6 @@ export class Template
 
 	export()
 	{
-		// console.log(this.rootEntity);
 		return {
 			uuid:   this.uuid
 			, name: this.name

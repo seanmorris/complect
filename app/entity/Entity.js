@@ -66,9 +66,9 @@ export class Entity extends View
 		},{wait:0});
 
 		this.args.states.bindTo((v,k) => {
+
 			this.args._states = this.activeStates().join(' ');
 
-			// console.log(this.args._states);
 		},{wait:0});
 
 		this.args._styles = '';
@@ -98,12 +98,6 @@ export class Entity extends View
 
 		this.args._styles              = this.compileStyles();
 		this.styleView.args.content    = this.args._styles;
-
-		// console.log(this.args._styles);
-
-		// console.log(JSON.stringify(
-		// 	this.project.export()
-		// , null,4));
 	}
 
 	compileStyles()
@@ -130,20 +124,6 @@ export class Entity extends View
 	{
 		return this.rootTag().outerHTML;
 	}
-
-	// getAllStyles()
-	// {
-	// 	let styles = {};
-
-	// 	styles[this.args.uuid] = this.compileStyles();
-
-	// 	for(let i in this.args.children)
-	// 	{
-	// 		Object.assign(styles, this.args.children[i].compileStyles());
-	// 	}
-
-	// 	return styles;
-	// }
 
 	activeStates()
 	{
@@ -225,7 +205,6 @@ export class Entity extends View
 
 		for(let  i in this.args.styles)
 		{
-			// styles[i] = this.args.styles[i];
 			styles[i] = styles[i] || {};
 
 			for(let j in this.args.styles[i])
@@ -233,8 +212,6 @@ export class Entity extends View
 				styles[i][j] = this.args.styles[i][j];
 			}
 		}
-
-		// console.log(this.args.children.items());
 
 		return {
 			type:       this.args.type
@@ -249,7 +226,6 @@ export class Entity extends View
 	static import(skeleton, project)
 	{
 		let entity = new this({
-
 			uuid:   skeleton.uuid
 			, name: skeleton.name
 
@@ -277,6 +253,14 @@ export class Entity extends View
 
 				entity.args.children.add(component)
 			});
+		}
+
+		if(skeleton.properties)
+		{
+			for(let property in skeleton.properties)
+			{
+				entity.args[ property ] = skeleton.properties[ property ];
+			}
 		}
 
 

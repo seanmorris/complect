@@ -85,7 +85,7 @@ export class Styler extends View
 			let preValue  = styles.getPropertyValue(k);
 
 			let entity    = this.args.focus;
-			let entityTag = entity.rootTag();
+			// let entityTag = entity.rootTag();
 
 			if(v !== preValue || !v)
 			{
@@ -95,7 +95,6 @@ export class Styler extends View
 			if(!v)
 			{
 				this.onTimeout(0, ()=>{
-					// this.tags.style[k].element.value = styles[k];
 					this.args.form.value[k] = styles[k];
 					this.args.styles[k]     = styles[k];
 				});
@@ -160,7 +159,6 @@ export class Styler extends View
 
 			if(filter && !rule.match(new RegExp(filter)))
 			{
-				console.log(filter);
 				continue;
 			}
 

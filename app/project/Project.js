@@ -18,33 +18,37 @@ export class Project
 		this.styles     = Bindable.makeBindable({});
 		this.stage      = stage || null;
 
-		this.state = {
+		this.state = Bindable.makeBindable({
 			components:    {}
 			, templates:   {}
 			, breakpoints: {}
-		};
+		});
 
 		this.currentBreakpoint = null;
 
 		this._currentTemplate = null;
 
-		this.bindTo('name', (v) => {
-			// console.log(v);
-		});
+		// this.bindTo('name', (v) => {
+		// 	console.log(v);
+		// });
+
+		// this.state.components.bindTo((v,k) => {
+		// 	console.log(k,v);
+		// });
 
 		if(skeleton.components)
 		{
-			this.state.components = skeleton.components;
+			Object.assign(this.state.components, skeleton.components);
 
 			for(let i in skeleton.components)
 			{
 				let subSkeleton = skeleton.components[i];
+				let newSkeleton = {};
 
-				subSkeleton.project = this;
+				Object.assign(newSkeleton, subSkeleton);
+				Object.assign(newSkeleton, {project: this});
 
 				let entity = this.getComponent(i);
-
-				// console.log(subSkeleton, entity);
 			}
 		}
 
@@ -73,10 +77,6 @@ export class Project
 		}
 
 		entity.project = this;
-
-		// this.stage.args.styles[ entity.args.uuid ] = entity.styleView;
-
-		let skeleton = entity.export();
 
 		this.state.components[ entity.args.uuid ] = {
 			uuid: entity.args.uuid
@@ -113,9 +113,12 @@ export class Project
 
 	addTemplate(skeleton = {})
 	{
-		skeleton.project = this;
+		let newSkeleton = {};
 
-		let template = new Template(skeleton, this.stage);
+		Object.assign(newSkeleton, skeleton);
+		Object.assign(newSkeleton, {project: this});
+
+		let template = new Template(newSkeleton, this.stage);
 
 		template.project = this;
 
@@ -140,8 +143,6 @@ export class Project
 
 		return template;
 	}
-
-	
 
 	linkComponent(component)
 	{
@@ -183,7 +184,7 @@ export class Project
 
 			if(d)
 			{
-				delete this.state.components[uuid][k];
+				delete this.state.components[uuid].children[k];
 				return;
 			}
 
@@ -235,7 +236,7 @@ export class Project
 		let scalarDebind = template.bindTo((v,k,t,d) => {
 			if(d)
 			{
-				delete this.state.components[uuid][k];
+				delete this.state.templates[uuid][k];
 				return;
 			}
 
@@ -254,14 +255,16 @@ export class Project
 				this.state.templates[uuid][k] = v;
 			}
 		});
+
+		template.rootEntity.cleanup.push(() => {
+			scalarDebind();
+		})
 	}
 
 	currentTemplate(id)
 	{
 		if(id)
 		{
-			// let skeleton = this.getTemplate(id).export();
-			// let template = Template.import(skeleton, this);
 			let template = this.getTemplate(id);
 
 			if(this._currentTemplate)
@@ -286,7 +289,13 @@ export class Project
 			templates[i] = this.templates[i].export();
 		}
 
-		return {name,templates,components: this.state.components};
+		let exported = {
+			name
+			, templates
+			, components: this.state.components
+		};
+
+		return exported;
 	}
 
 	static import(skeleton, stage)

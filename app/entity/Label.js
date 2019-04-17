@@ -5,11 +5,18 @@ export class Label extends Entity
 	constructor(args,stage)
 	{
 		super(args,stage);
-		this.args.content = 'style me.'
 
 		this.args.type = 'label';
 		this.template = require('./label.tmp');
 
+		if(args.properties)
+		{
+			this.args.content = args.properties.content;
+		}
+		else
+		{
+			this.args.content = 'style me.'
+		}
 
 		// this.args.bindTo('content', (v,k)=>{
 		// 	console.log(k,v);
@@ -30,11 +37,6 @@ export class Label extends Entity
 	static import(skeleton, project)
 	{
 		let entity = super.import(skeleton, project);
-
-		if(skeleton.properties)
-		{
-			entity.content = skeleton.properties.content;
-		}
 
 		return entity;
 	}
