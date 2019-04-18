@@ -29,7 +29,6 @@ export class Template
 		template.project    = args.project || null;
 		template.templates  = {};
 		template.components = {};
-		template.styles     = {};
 
 		template.stage = stage;
 

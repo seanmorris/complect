@@ -74,6 +74,8 @@
 
 .triptych .column .entry input[type="button"] {
 	font-weight: 700;
+	height: 1.25em;
+	display: flex;
 }
 
 .triptych .column .entry input[type="text"] {

@@ -48,6 +48,21 @@ export class ProjectEntry extends View
 			}
 		};
 
+		formSource.buttons.children.dump =  {
+			"name":  'dump',
+			"title": '☷ dump',
+			"type":  'button',
+			"value": '',
+			"attrs": {
+				"type": 'button',
+				"name": 'dump',
+				"id":   'dump',
+				"cv-on": 'click:click(event)',
+
+				'tab-index': 0,
+			}
+		};
+
 		formSource.buttons.children.save =  {
 			"name":  'save',
 			"title": '🖫 save',
@@ -77,15 +92,29 @@ export class ProjectEntry extends View
 			}
 		};
 
-		formSource.buttons.children.build =  {
-			"name":  'build',
-			"title": '☰ build',
-			"type":  'button',
-			"value": '',
-			"attrs": {
-				"type": 'button',
-				"name": 'build',
-				"id":   'project-build',
+		// formSource.buttons.children.build =  {
+		// 	"name":  'build',
+		// 	"title": '࿊ build',
+		// 	"type":  'button',
+		// 	"value": '',
+		// 	"attrs": {
+		// 		"type": 'button',
+		// 		"name": 'build',
+		// 		"id":   'project-build',
+		// 		// "cv-on": 'click:click(event)',
+		// 		// 'tab-index': 0,
+		// 	}
+		// };
+
+		formSource.buttons.children.export =  {
+			name:  'build',
+			title: '⌬ build',
+			type:  'button',
+			value: '',
+			attrs: {
+				type: 'button',
+				name: 'build',
+				id:   'project-build',
 				// "cv-on": 'click:click(event)',
 				// 'tab-index': 0,
 			}
@@ -96,6 +125,12 @@ export class ProjectEntry extends View
 		this.args.form.fields.buttons.fields.save.click = ()=>{
 			
 			this.saveProject();
+			
+		};
+
+		this.args.form.fields.buttons.fields.dump.click = ()=>{
+			
+			this.dumpProject();
 			
 		};
 
@@ -125,21 +160,53 @@ export class ProjectEntry extends View
 
 	saveProject()
 	{
-		let projectSource = JSON.stringify(
-			this.args.project.export()
-			, null
-			, 4
-		);
+		let projectSource = JSON.stringify(this.args.project.export(), null, 4);
+		let encodedSource = encodeURIComponent(projectSource);
 
 		let link      = document.createElement('a');
 
 		link.download = `${this.args.project.name || 'untitled-complect-project'}.cpj`;
 		link.target   = '_blank';
-		link.href     = `data:application/json;charset=utf-8,${
-			encodeURIComponent(projectSource)
-		}`;
+		link.href     = `data:application/json;charset=utf-8,${encodedSource}`;
 
 		link.click();
+	}
+
+	dumpProject()
+	{
+		let projectSource = JSON.stringify(this.args.project.export(), null, 4);
+		let encodedSource = encodeURIComponent(projectSource);
+
+		let popup = window.open(
+			'about:blank'
+			// , ''
+			// , 'chrome=no,location=no'
+		);
+
+		let iconLink  = popup.document.createElement('link');
+		iconLink.type = 'image/x-icon';
+		iconLink.rel  = 'shortcut icon';
+		iconLink.href = 'http://' + location.host + '/favicon.ico';
+
+		popup.document.write(`<iframe
+				src         = 'data:application/json;charset=utf-8,${encodedSource}'
+				frameborder = '0'
+				style       = '
+					position: absolute;
+					top:      0px;
+					left:     0px;
+					width:    100%;
+					height:   100%;
+					border:   0;
+				'
+				allowfullscreen
+		>`);
+
+		popup.document.getElementsByTagName('head')[0].appendChild(iconLink);
+
+		window.addEventListener('unload', () => {
+			popup.close();
+		});
 	}
 
 	openProject()

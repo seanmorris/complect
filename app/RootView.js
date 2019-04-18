@@ -14,7 +14,7 @@ export class RootView extends View
 
 		this.args.zoom       = '100';
 		this.args.customZoom = false;
-		this.args.resolution = 'ERROR!';
+		this.args.resolution = 'No Template!';
 
 		this.args.zooms      = [100, '--',10,25,50,75,90,100,110,125,150,200,250];
 

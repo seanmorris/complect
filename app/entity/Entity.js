@@ -10,18 +10,20 @@ export class Entity extends View
 	constructor(args,stage)
 	{
 		super(args);
-		this.args.type      = 'entity';
-		this.preserve       = true;
-		this.stage          = stage;
 
-		this.template       = require('./entity.tmp');
+		this.args.type        = 'entity';
+		this.preserve         = true;
+		this.stage            = stage;
 
-		this.args.uuid      = args.uuid   || uuid();
-		this.args.name      = args.name   || '_' + this.args.uuid;
-		this.args.styles    = {};
-		// this.args.styles    = args.styles || {};
+		this.template         = require('./entity.tmp');
 
-		this.styleView      = new Styles;
+		this.args.uuid        = args.uuid   || uuid();
+		this.args.name        = args.name   || '_' + this.args.uuid;
+		this.args.styles      = {};
+		this.args.breakpoints = {};
+		this.styleViews       = {};
+
+		this.styleView        = new Styles;
 
 		this.styleView.args.templateId = this.args.uuid;
 
@@ -81,13 +83,18 @@ export class Entity extends View
 		}, {wait: 0});
 	}
 
-	addStyle(rule, value, states = [])
+	addStyle(rule, value, states = [], breakpoint = null)
 	{
 		states = states.slice(0);
 
 		states.sort();
 
 		let selector = states.map(s=>`[data-state~="${s}"]`).join('');
+
+		if(!this.args.styles)
+		{
+			this.args.styles = {};
+		}
 
 		if(!this.args.styles[selector])
 		{
@@ -239,9 +246,16 @@ export class Entity extends View
 			{
 				for(let property in skeleton.styles[selector])
 				{
-					let style = skeleton.styles[selector][property];
+					let rule = skeleton.styles[selector][property];
 
-					entity.addStyle(property, style, []);
+					if(!entity.args.styles[selector])
+					{
+						entity.args.styles[selector] = {};
+					}
+
+					entity.args.styles[selector][property] = rule;
+
+					console.log(selector, property, rule);
 				}
 			}
 		}
@@ -263,6 +277,18 @@ export class Entity extends View
 			}
 		}
 
+		if(skeleton.states)
+		{
+			for(let i in skeleton.states)
+			{
+				console.log(i);
+
+				entity.args.states[ i ] = skeleton.states[i];
+			}
+		}
+
+		entity.args._styles           = entity.compileStyles();
+		entity.styleView.args.content = entity.args._styles;
 
 		return entity;
 	}

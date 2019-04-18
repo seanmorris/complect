@@ -199,7 +199,7 @@ export class Project
 		let styleDebind = component.args.styles.bindTo((v,k,t,d) => {
 			if(d)
 			{
-				delete this.state.styles[uuid][k];
+				this.state.components[uuid].styles[k];
 				return;
 			}
 
@@ -222,10 +222,28 @@ export class Project
 			component.cleanup.push(subStyleDebind);
 		});
 
+		let stateDebind = component.args.states.bindTo((v,k,t,d) => {
+			if(d)
+			{
+				this.state.components[uuid].states[k];
+				return;
+			}
+
+			if(!this.state.components[uuid].states)
+			{
+				this.state.components[uuid].states = {};
+			}
+
+			this.state.components[uuid].states[k] = !!v;
+
+			component.cleanup.push(stateDebind);
+		});
+
 		component.cleanup.push(() => {
 			scalarDebind();
 			childDebind();
 			styleDebind();
+			stateDebind();
 		})
 	}
 

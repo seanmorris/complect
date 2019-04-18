@@ -11,7 +11,6 @@ export class Stage extends View
 		this.template         = require('./stage.tmp');
 		this.focused          = null;
 
-		this.args.styles      = {};
 		this.args.zoom        = 100;
 		this.args.stageHeight = 100;
 		this.args.zoomHeight  = 100;
@@ -130,17 +129,6 @@ export class Stage extends View
 			_html.parentNode.removeChild(_html);
 
 			this.args.rootEntity.render(subDoc);
-
-			this.args.styles.bindTo((v,k) => {
-				
-				if(!this.args.rootEntity)
-				{
-					return;
-				}
-
-				this.args.rootEntity.args.styles[k] = v;
-
-			});
 
 			this.args.rootEntity.stageAttached(this, event);
 
