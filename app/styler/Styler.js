@@ -20,6 +20,7 @@ export class Styler extends View
 		this.args.status = 'all states';
 		this.args.search = null;
 
+		this.args.bpQuery    = null;
 		this.args.breakpoint = null;
 
 		this.prevDebind  = null;
@@ -89,7 +90,7 @@ export class Styler extends View
 
 			if(v !== preValue || !v)
 			{
-				entity.addStyle(k, v, this.args.states);
+				entity.addStyle(k, v, this.args.states, this.args.bpQuery);
 			}
 
 			if(!v)
@@ -163,14 +164,14 @@ export class Styler extends View
 			}
 
 			formSource[rule] =  {
-				"name":  rule,
-				"title": rule,
-				"type": "text",
-				"value": styles.getPropertyValue(i),
-				"attrs": {
-					"type": "text",
-					"name": rule,
-					"id":   rule
+				name:  rule,
+				title: rule,
+				type:  "text",
+				value: styles.getPropertyValue(i),
+				attrs: {
+					type: "text",
+					name: rule,
+					id:   rule
 				}
 			};
 		}
@@ -182,13 +183,14 @@ export class Styler extends View
 			this.prevDebind();
 		}
 
-		let breakpointtDebind = this.args.project.bindTo('currentBreakpoint', (v) => {
+		let breakpointDebind = this.args.project.bindTo('currentBreakpoint', (v) => {
 			if(!v || (!v.min && !v.max))
 			{
 				this.args.breakpoint = null;
 				return;
 			}
-			this.args.breakpoint = `, ${v.min}px - ${v.max}px`;
+			this.args.breakpoint = `${v.min}px - ${v.max}px`;
+			this.args.bpQuery    = `(max-width: ${v.max}px) and (min-width: ${v.min}px)`;			
 		});
 
 		let styleDebind = this.args.form.value.bindTo((v,k) => {

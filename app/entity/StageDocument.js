@@ -14,15 +14,21 @@ export class StageDocument extends Entity
 		);
 
 		this.args.editorStyles = '';
+
+		this.args.styles = {};
+
+		// this.args.styles.bindTo((v,k,t,d) => {
+		// 	console.trace(k,d,v);
+		// });
 	}
 
 	postRender()
 	{
-		let head = this.findTag('head');
+		// let head = this.findTag('head');
 
-		if(head)
-		{
-			this.styleView.render(head);
-		}
+		// if(head)
+		// {
+		// 	this.styleView.render(head);
+		// }
 	}
 }

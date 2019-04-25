@@ -21,11 +21,24 @@ export class Entity extends View
 		this.args.name        = args.name   || '_' + this.args.uuid;
 		this.args.styles      = {};
 		this.args.breakpoints = {};
-		this.styleViews       = {};
+		this.args.styleViews  = {};
 
-		this.styleView        = new Styles;
+		this.args.styleViews.bindTo((v,k,d,t) => {
 
-		this.styleView.args.templateId = this.args.uuid;
+			let stageWindow   = this.stage.getWindow();
+			let stageDocument = stageWindow.document
+			let head          = stageDocument.querySelector('head');
+
+			if(head)
+			{
+				v.render(head);
+			}
+
+		});
+
+		// this.styleView        = new Styles;
+		// this.styleViews       = {};
+		// this.styleView.args.templateId = this.args.uuid;
 
 		this.args._children = [];
 		this.args.children  = new Bag((item, meta, change)=>{
@@ -45,12 +58,7 @@ export class Entity extends View
 			}
 		});
 
-		this.args.states = {
-			// default:    false
-			// , active:   false
-			// , inactive: false
-			// , hover:    false
-		};
+		this.args.states = {};
 
 		this.args.bindTo('name', (v) => {
 			let tag;
@@ -62,9 +70,9 @@ export class Entity extends View
 
 			tag.setAttribute('class', v);
 
-			this.args._styles              = this.compileStyles();
-			this.styleView.args.content    = this.args._styles;
-			this.styleView.args.templateId = this.args.uuid;
+			// this.args._styles              = this.compileStyles();
+			// this.styleView.args.content    = this.args._styles;
+			// this.styleView.args.templateId = this.args.uuid;
 		},{wait:0});
 
 		this.args.states.bindTo((v,k) => {
@@ -73,7 +81,7 @@ export class Entity extends View
 
 		},{wait:0});
 
-		this.args._styles = '';
+		// this.args._styles = '';
 		this.args._states = '';
 
 		this.args.metaStates = {};
@@ -81,44 +89,62 @@ export class Entity extends View
 		this.args.metaStates.bindTo((v,k,t)=>{
 			this.args._metaStates = Object.keys(t).filter(kk=>t[kk]).join(' ');
 		}, {wait: 0});
+
+		this.args.stageAttached = false;
 	}
 
-	addStyle(rule, value, states = [], breakpoint = null)
+	addStyle(rule, value, states = [], breakpoint)
 	{
 		states = states.slice(0);
 
 		states.sort();
 
-		let selector = states.map(s=>`[data-state~="${s}"]`).join('');
+		let selector   = states.map(s=>`[data-state~="${s}"]`).join('');
 
 		if(!this.args.styles)
 		{
 			this.args.styles = {};
 		}
 
-		if(!this.args.styles[selector])
+		if(!this.args.styles[breakpoint])
 		{
-			this.args.styles[selector] = [];
+			this.args.styles[breakpoint] = [];
 		}
 
-		this.args.styles[selector][rule] = value;
+		if(!this.args.styles[breakpoint][selector])
+		{
+			this.args.styles[breakpoint][selector] = [];
+		}
 
-		this.args._styles              = this.compileStyles();
-		this.styleView.args.content    = this.args._styles;
+		this.args.styles[breakpoint][selector][rule] = value;
+
+		if(!this.args.styleViews[breakpoint])
+		{
+			this.args.styleViews[breakpoint] = new Styles({
+				breakpoint, templateId: this.args.uuid
+			});
+		}
+
+		this.args.styleViews[breakpoint].args.content = this.compileStyles(breakpoint);
 	}
 
-	compileStyles()
+	compileStyles(breakpoint)
 	{
-		return Object.keys(this.args.styles).map(selector => {
+		if(!this.args.styles[breakpoint])
+		{
+			return '';
+		}
 
-			let rules = Object.keys(this.args.styles[selector]).map((k)=>{
+		return Object.keys(this.args.styles[breakpoint]).map(selector => {
 
-				if(this.args.styles[selector][k] == '')
+			let rules = Object.keys(this.args.styles[breakpoint][selector]).map((k)=>{
+
+				if(this.args.styles[breakpoint][selector][k] == '')
 				{
 					return;
 				}
 
-				return `${k}:${this.args.styles[selector][k]}; `;
+				return `${k}:${this.args.styles[breakpoint][selector][k]}; `;
 
 			}).join('');
 
@@ -152,13 +178,19 @@ export class Entity extends View
 
 		if(head)
 		{
-			this.styleView.render(head);
+			// this.styleView.render(head);
+			for(let breakpoint in this.args.styleViews)
+			{
+				this.args.styleViews[breakpoint].render(head);
+			}
 		}
 
 		for(let i in this.args._children)
 		{
 			this.args._children[i].stageAttached(stage, event);
 		}
+
+		this.args.stageAttached = true;
 	}
 
 	remove()
@@ -210,13 +242,19 @@ export class Entity extends View
 	{
 		let styles = {};
 
-		for(let  i in this.args.styles)
+		for(let breakpoint in this.args.styles)
 		{
-			styles[i] = styles[i] || {};
+			styles[breakpoint] = styles[breakpoint] || {};
 
-			for(let j in this.args.styles[i])
+			for(let selector in this.args.styles[breakpoint])
 			{
-				styles[i][j] = this.args.styles[i][j];
+				styles[breakpoint][selector] = styles[breakpoint][selector] || {};
+
+				for(let property in this.args.styles[breakpoint][selector])
+				{
+					styles[breakpoint][selector][property]
+						= this.args.styles[breakpoint][selector][property];
+				}
 			}
 		}
 
@@ -242,20 +280,23 @@ export class Entity extends View
 
 		if(skeleton.styles)
 		{
-			for(let selector in skeleton.styles)
+			for(let breakpoint in skeleton.styles)
 			{
-				for(let property in skeleton.styles[selector])
+				for(let selector in skeleton.styles[breakpoint])
 				{
-					let rule = skeleton.styles[selector][property];
-
-					if(!entity.args.styles[selector])
+					for(let property in skeleton.styles[breakpoint][selector])
 					{
-						entity.args.styles[selector] = {};
+						let rule = skeleton.styles[breakpoint][selector][property];
+
+						if(!entity.args.styles[breakpoint][selector])
+						{
+							entity.args.styles[breakpoint][selector] = {};
+						}
+
+						entity.args.styles[breakpoint][selector][property] = rule;
+
+						console.log(breakpoint, selector, property, rule);
 					}
-
-					entity.args.styles[selector][property] = rule;
-
-					console.log(selector, property, rule);
 				}
 			}
 		}
@@ -287,8 +328,8 @@ export class Entity extends View
 			}
 		}
 
-		entity.args._styles           = entity.compileStyles();
-		entity.styleView.args.content = entity.args._styles;
+		// entity.args._styles           = entity.compileStyles();
+		// entity.styleView.args.content = entity.args._styles;
 
 		return entity;
 	}

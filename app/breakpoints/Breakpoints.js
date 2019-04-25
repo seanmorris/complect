@@ -103,39 +103,39 @@ export class Breakpoints extends View
 		};
 
 		formSource.buttons =  {
-			"name":  'buttons',
-			"title": '',
-			"type":  'fieldset',
-			"children": {},
-			"attrs": {
-				"type": 'fieldset',
-				"name": 'buttons',
-				"id":   'project-buttons'
+			name:  'buttons',
+			title: '',
+			type:  'fieldset',
+			children: {},
+			attrs: {
+				type: 'fieldset',
+				name: 'buttons',
+				id:   'project-buttons'
 			}
 		};
 
 		formSource.buttons.children.confirm =  {
-			"name":  'confirm',
-			"title": '🗹 confirm',
-			"type":  'button',
-			"attrs": {
-				"type": 'button',
-				"name": 'confirm',
-				"id":   'breakpoint-confirm',
-				"cv-on": 'click:click(event)',
+			name:  'confirm',
+			title: '🗹 confirm',
+			type:  'button',
+			attrs: {
+				type:    'button',
+				name:    'confirm',
+				id:      'breakpoint-confirm',
+				'cv-on': 'click:click(event)',
 			}
 		};
 
 		formSource.buttons.children.cancel =  {
-			"name":  'cancel',
-			"title": '✖ cancel',
-			"type":  'button',
-			"value": '',
-			"attrs": {
-				"type": 'button',
-				"name": 'cancel',
-				"id":   'breakpoint-cancel',
-				"cv-on": 'click:click(event)',
+			name:  'cancel',
+			title: '✖ cancel',
+			type:  'button',
+			value: '',
+			attrs: {
+				type:    'button',
+				name:    'cancel',
+				id:      'breakpoint-cancel',
+				'cv-on': 'click:click(event)',
 			}
 		};
 
