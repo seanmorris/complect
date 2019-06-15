@@ -12,7 +12,8 @@ export class Styles extends View
 		this.args._content   = this.args.content;
 
 		this.args.bindTo('breakpoint', (v) => {
-
+			this.args._breakpoint = v ? v : '';
+			console.log(this.args._breakpoint);
 		});
 	}
 

@@ -109,6 +109,8 @@ export class Entity extends View
 			this.args.styles = {};
 		}
 
+		breakpoint = breakpoint ? breakpoint : '';
+
 		if(!this.args.styles[breakpoint])
 		{
 			this.args.styles[breakpoint] = [];
@@ -307,6 +309,17 @@ export class Entity extends View
 						}
 
 						entity.args.styles[breakpoint][selector][property] = rule;
+
+						if(1||!entity.args.styleViews[breakpoint])
+						{
+							entity.args.styleViews[breakpoint] = new Styles({
+								breakpoint, templateId: entity.args.uuid
+							});
+						}
+
+						entity.args.styleViews[breakpoint].args.content = entity.compileStyles(breakpoint);
+
+						console.log(entity.args.styleViews[breakpoint].args.content);
 
 						// console.log(breakpoint, selector, property, rule);
 
