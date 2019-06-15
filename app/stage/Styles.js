@@ -15,4 +15,12 @@ export class Styles extends View
 
 		});
 	}
+
+	rebuild()
+	{
+		if(this.args.breakpoint)
+		{
+			return ``;
+		}
+	}
 }

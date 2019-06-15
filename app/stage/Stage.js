@@ -82,10 +82,12 @@ export class Stage extends View
 
 	getWindow()
 	{
-		if(!this.tags.stage)
+		if(!this.tags.stage || !this.tags.stage.element)
 		{
 			return;
 		}
+
+		// console.log(this.tags.stage);
 
 		return this.tags.stage.element.contentWindow;
 	}

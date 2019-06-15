@@ -21,7 +21,7 @@ export class Styler extends View
 		this.args.search = null;
 
 		this.args.bpQuery    = null;
-		this.args.breakpoint = null;
+		this.args.breakpoint = 'all breakpoints';;
 
 		this.prevDebind  = null;
 
@@ -186,7 +186,7 @@ export class Styler extends View
 		let breakpointDebind = this.args.project.bindTo('currentBreakpoint', (v) => {
 			if(!v || (!v.min && !v.max))
 			{
-				this.args.breakpoint = null;
+				this.args.breakpoint = 'all breakpoints';
 				return;
 			}
 			this.args.breakpoint = `${v.min}px - ${v.max}px`;
@@ -214,7 +214,7 @@ export class Styler extends View
 		}, {wait: 0});
 
 		this.prevDebind = () => {
-			breakpointtDebind();
+			breakpointDebind();
 			stateDebind();
 			styleDebind();
 		};

@@ -26,6 +26,9 @@ export class Entity extends View
 		this.args.styleViews.bindTo((v,k,d,t) => {
 
 			let stageWindow   = this.stage.getWindow();
+
+			console.log(this.stage);
+
 			let stageDocument = stageWindow.document
 			let head          = stageDocument.querySelector('head');
 
@@ -288,6 +291,16 @@ export class Entity extends View
 					{
 						let rule = skeleton.styles[breakpoint][selector][property];
 
+						if(!entity.args.styles)
+						{
+							entity.args.styles = {};
+						}
+
+						if(!entity.args.styles[breakpoint])
+						{
+							entity.args.styles[breakpoint] = {};
+						}
+
 						if(!entity.args.styles[breakpoint][selector])
 						{
 							entity.args.styles[breakpoint][selector] = {};
@@ -295,7 +308,9 @@ export class Entity extends View
 
 						entity.args.styles[breakpoint][selector][property] = rule;
 
-						console.log(breakpoint, selector, property, rule);
+						// console.log(breakpoint, selector, property, rule);
+
+						// entity.addStyle(selector, rule, );
 					}
 				}
 			}

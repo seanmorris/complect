@@ -209,7 +209,7 @@
 }
 
 .triptych .column .entry select[multiple] {
-	overflow: auto;
+	/*overflow: auto;*/
 }
 
 .triptych .column .entry label {
